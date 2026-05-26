@@ -2,6 +2,13 @@ import { useState } from 'react'
 import Container from './LandingContainer'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import type { Mode } from '@/@types/theme'
+
+
+type DemoProps = {
+    mode: Mode
+}
+
 const stackList = [
     {
         id: 'react',
@@ -53,11 +60,11 @@ const stackList = [
     },
 ]
 
-const TechStack = () => {
+const TechStack = ({ mode }: DemoProps) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
     return (
-        <div id="demos" className="relative z-20 py-10 md:py-40">
+        <div id="panduan" className="relative z-20 py-10 md:py-40">
             <motion.div
                 className="text-center mb-12"
                 initial={{ opacity: 0, y: 40 }}

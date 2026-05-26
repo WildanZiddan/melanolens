@@ -2,7 +2,7 @@
 
 import HeroContent from './HeroContent'
 import NavigationBar from './NavigationBar'
-import Features from './Features'
+import Beranda from './Beranda'
 import Demos from './Demos'
 import TechStack from './TechStack'
 import OtherFeatures from './OtherFeatures'
@@ -33,14 +33,15 @@ const Landing = () => {
                 ></div>
                 <HeroContent mode={mode} />
             </div>
-            <Features
+            <Beranda
                 mode={mode}
                 schema={schema}
                 setSchema={setSchema}
                 onModeChange={(value) => setMode(value ? 'dark' : 'light')}
             />
+            <TechStack mode={mode} />
             <Demos mode={mode} />
-            <TechStack />
+            {/* <TechStack /> */}
             <OtherFeatures />
             <Components />
             <LandingFooter mode={mode} />

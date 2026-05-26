@@ -22,8 +22,8 @@ const navMenu = [
     },
     {
         title: 'Panduan Penggunaan',
-        value: 'demos',
-        to: 'demos',
+        value: 'panduan',
+        to: 'panduan',
     },
     {
         title: 'FAQ',

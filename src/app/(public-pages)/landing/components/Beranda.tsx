@@ -203,12 +203,10 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                     viewport={{ once: true }}
                 >
                     <motion.h2 className="my-6 text-5xl">
-                        Discover the Power of Ecme
+                        Fitur Unggulan MelanoLens
                     </motion.h2>
                     <motion.p className="mx-auto max-w-[600px]">
-                        Crafted for performance, scalability, and ease of
-                        use—experience a template built to meet all your project
-                        needs
+                        Platform cerdas yang mengintegrasikan kecerdasan buatan dengan standardisasi medis internasional demi penapisan yang objektif
                     </motion.p>
                 </motion.div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -229,7 +227,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                     className="rounded-2xl bg-white dark:bg-gray-900 p-4"
                                     style={cardStyles}
                                 >
-                                    <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800">
+                                    {/* <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800">
                                         <Switcher
                                             checked={mode === 'dark'}
                                             onChange={onModeChange}
@@ -237,8 +235,59 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                         <span>
                                             {mode === 'dark' ? 'Dark' : 'Light'}
                                         </span>
-                                    </div>
-                                    <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800 mt-4">
+                                    </div> */}
+
+                                <div
+                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 relative h-[106px]"
+                                    style={cardStyles}
+                                >
+                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-lg">
+                                            {mode === 'light' && (
+                                                <Image
+                                                    className="rounded-lg"
+                                                    src="/img/landing/layouts/hasilscan.jpeg"
+                                                    width={630}
+                                                    height={562}
+                                                    alt="Hasil Scan"
+                                                />
+                                            )}
+                                            {mode === 'dark' && (
+                                                <Image
+                                                    className="rounded-lg"
+                                                    src="/img/landing/layouts/hasilscan.jpeg"
+                                                    width={630}
+                                                    height={562}
+                                                    alt="Hasil Scan"
+                                                />
+                                            )}
+                                        </div>
+                                </div>
+                                <div
+                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 relative h-[124px]"
+                                    style={cardStyles}
+                                >
+                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-lg shadow-2xl dark:shadow-white/10">
+                                            {mode === 'light' && (
+                                                <Image
+                                                    className="rounded-lg"
+                                                    src="/img/landing/layouts/hasilscan2.jpeg"
+                                                    width={630}
+                                                    height={562}
+                                                    alt="Hasil Scan"
+                                                />
+                                            )}
+                                            {mode === 'dark' && (
+                                                <Image
+                                                    className="rounded-lg"
+                                                    src="/img/landing/layouts/hasilscan2.jpeg"
+                                                    width={630}
+                                                    height={562}
+                                                    alt="Hasil Scan"
+                                                />
+                                            )}
+                                        </div>
+                                </div>
+                                    {/* <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800 mt-4">
                                         <div className="inline-flex items-center gap-2">
                                             {Object.entries(
                                                 presetThemeSchemaConfig,
@@ -267,15 +316,14 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                                 </button>
                                             ))}
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="mt-6">
                                     <h4 className="font-bold">
-                                        Customizable Themes
+                                        Standardisasi Medis ABCDE
                                     </h4>
                                     <p className="mt-2">
-                                        Effortlessly switch between light and
-                                        dark modes or create your custom theme.
+                                        Analisis citra kulit dilakukan secara terstruktur berdasarkan parameter klinis Asymmetry, Border, Color, Diameter, dan Evolving untuk hasil penapisan awal yang komprehensif.
                                     </p>
                                 </div>
                             </Card>
@@ -328,11 +376,10 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 </div>
                                 <div className="mt-6">
                                     <h4 className="font-bold">
-                                        Comprehensive documentation
+                                        Transparansi AI (Explainable AI)
                                     </h4>
                                     <p className="mt-2">
-                                        Detailed step-by-step guides to help you
-                                        get started and master the template.
+                                        Tidak hanya memberikan hasil probabilitas, sistem kami menyediakan visualisasi Attention Maps (Heatmap) untuk menunjukkan area lesi kulit yang menjadi dasar keputusan model AI.
                                     </p>
                                 </div>
                             </Card>
@@ -362,14 +409,10 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 </div>
                                 <div className="mt-6">
                                     <h4 className="font-bold">
-                                        Multiple Layouts
+                                        Dashboard Pemantauan Klinis
                                     </h4>
                                     <p className="mt-2">
-                                        Choose from various layout options to
-                                        match your needs. Whether it&apos;s
-                                        vertical, horizontal, or RTL
-                                        (right-to-left), we provide flexibility
-                                        for any design style or language.
+                                        Simpan riwayat penapisan citra dermoskopi pasien secara berkala, memudahkan tenaga medis memantau perkembangan struktur lesi jaringan kulit dari waktu ke waktu.
                                     </p>
                                 </div>
                             </Card>
@@ -418,12 +461,10 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 </div>
                                 <div className="mt-6">
                                     <h4 className="font-bold">
-                                        Handcrafted Tailwind Components
+                                        Integrasi Antarmuka Responsif
                                     </h4>
                                     <p className="mt-2">
-                                        A collection of custom-made, highly
-                                        flexible Tailwind components that fit
-                                        any use case.
+                                        Dioptimalkan dengan arsitektur komponen modern yang responsif untuk berbagai perangkat, memudahkan akses penapisan baik melalui desktop di klinik maupun perangkat *mobile*.
                                     </p>
                                 </div>
                             </div>
