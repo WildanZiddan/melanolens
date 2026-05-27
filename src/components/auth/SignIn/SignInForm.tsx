@@ -34,14 +34,20 @@ type SignInFormSchema = {
 const validationSchema = z.object({
     email: z
         .string()
-        .min(1, { message: 'Please enter your email' }),
-    password: z
-        .string()
-        .min(1, { message: 'Please enter your password' }),
+        .min(1, {
+            message: 'Please enter your email',
+        })
+        .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
+            message: 'Please enter a valid email',
+        }),
+
+    password: z.string().min(1, {
+        message: 'Please enter your password',
+    }),
 })
 
 const SignInForm = (props: SignInFormProps) => {
-    const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const [isSubmitting, setSubmitting] = useState(false)
 
     const { className, setMessage, onSignIn, passwordHint } = props
 
@@ -51,15 +57,19 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'admin-01@ecme.com',
-            password: '123Qwe',
+            email: '',
+            password: '',
         },
         resolver: zodResolver(validationSchema),
     })
 
     const handleSignIn = async (values: SignInFormSchema) => {
         if (onSignIn) {
-            onSignIn({ values, setSubmitting, setMessage })
+            onSignIn({
+                values,
+                setSubmitting,
+                setMessage,
+            })
         }
     }
 
@@ -67,9 +77,25 @@ const SignInForm = (props: SignInFormProps) => {
         <div className={className}>
             <Form onSubmit={handleSubmit(handleSignIn)}>
                 <FormItem
-                    label="Email"
+                    className="mb-3"
+                    label={
+                        (
+                            <div className="flex items-center gap-2">
+                                <span className="flex items-center">
+                                    <span>Email</span>
+
+                                    <span className="text-red-500 ml-1">*</span>
+                                </span>
+
+                                {errors.email && (
+                                    <span className="text-[11px] text-red-500">
+                                        {errors.email.message}
+                                    </span>
+                                )}
+                            </div>
+                        ) as unknown as string
+                    }
                     invalid={Boolean(errors.email)}
-                    errorMessage={errors.email?.message}
                 >
                     <Controller
                         name="email"
@@ -84,22 +110,34 @@ const SignInForm = (props: SignInFormProps) => {
                         )}
                     />
                 </FormItem>
+
                 <FormItem
-                    label="Password"
+                    className={classNames(passwordHint ? 'mb-1' : 'mb-3')}
+                    label={
+                        (
+                            <div className="flex items-center gap-2">
+                                <span className="flex items-center">
+                                    <span>Password</span>
+
+                                    <span className="text-red-500 ml-1">*</span>
+                                </span>
+
+                                {errors.password && (
+                                    <span className="text-[11px] text-red-500">
+                                        {errors.password.message}
+                                    </span>
+                                )}
+                            </div>
+                        ) as unknown as string
+                    }
                     invalid={Boolean(errors.password)}
-                    errorMessage={errors.password?.message}
-                    className={classNames(
-                        passwordHint ? 'mb-0' : '',
-                        errors.password?.message ? 'mb-8' : '',
-                    )}
                 >
                     <Controller
                         name="password"
                         control={control}
-                        rules={{ required: true }}
                         render={({ field }) => (
                             <PasswordInput
-                                type="text"
+                                type="password"
                                 placeholder="Password"
                                 autoComplete="off"
                                 {...field}
@@ -107,7 +145,9 @@ const SignInForm = (props: SignInFormProps) => {
                         )}
                     />
                 </FormItem>
+
                 {passwordHint}
+
                 <Button
                     block
                     loading={isSubmitting}

@@ -27,16 +27,16 @@ export type OnForgotPasswordSubmit = (
 interface ForgotPasswordFormProps extends CommonProps {
     onForgotPasswordSubmit?: OnForgotPasswordSubmit
     emailSent: boolean
-    setEmailSent: (compplete: boolean) => void
+    setEmailSent: (complete: boolean) => void
     setMessage: (message: string) => void
 }
 
 const validationSchema = z.object({
-    email: z.email().min(5),
+    email: z.string().trim().min(1, 'Email is required'),
 })
 
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
-    const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const [isSubmitting, setSubmitting] = useState(false)
 
     const {
         className,
@@ -53,6 +53,9 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         control,
     } = useForm<ForgotPasswordFormSchema>({
         resolver: zodResolver(validationSchema),
+        defaultValues: {
+            email: '',
+        },
     })
 
     const onForgotPassword = async (values: ForgotPasswordFormSchema) => {
@@ -66,40 +69,49 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         }
     }
 
+    if (emailSent) {
+        return <div>{children}</div>
+    }
+
     return (
         <div className={className}>
-            {!emailSent ? (
-                <Form onSubmit={handleSubmit(onForgotPassword)}>
-                    <FormItem
-                        label="Email"
-                        invalid={Boolean(errors.email)}
-                        errorMessage={errors.email?.message}
-                    >
-                        <Controller
-                            name="email"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type="email"
-                                    placeholder="Email"
-                                    autoComplete="off"
-                                    {...field}
-                                />
-                            )}
-                        />
-                    </FormItem>
-                    <Button
-                        block
-                        loading={isSubmitting}
-                        variant="solid"
-                        type="submit"
-                    >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
-                    </Button>
-                </Form>
-            ) : (
-                <>{children}</>
-            )}
+            <Form onSubmit={handleSubmit(onForgotPassword)}>
+                <div className="mb-1 flex items-center gap-1">
+                    <span className="font-semibold">Email</span>
+
+                    <span className="text-red-500">*</span>
+
+                    {errors.email && (
+                        <span className="ml-1 text-xs text-red-500">
+                            {errors.email.message}
+                        </span>
+                    )}
+                </div>
+
+                <FormItem invalid={Boolean(errors.email)} errorMessage="">
+                    <Controller
+                        name="email"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                type="email"
+                                placeholder="Email"
+                                autoComplete="off"
+                                {...field}
+                            />
+                        )}
+                    />
+                </FormItem>
+
+                <Button
+                    block
+                    loading={isSubmitting}
+                    variant="solid"
+                    type="submit"
+                >
+                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                </Button>
+            </Form>
         </div>
     )
 }

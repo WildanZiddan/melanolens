@@ -7,6 +7,7 @@ import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useRouter } from 'next/navigation'
+import Logo from '@/components/template/Logo'
 import type { OnForgotPasswordSubmit } from './ForgotPasswordForm'
 
 type ForgotPasswordProps = {
@@ -29,17 +30,26 @@ export const ForgotPassword = ({
 
     return (
         <div>
-            <div className="mb-6">
+            <div className="mb-4">
+                <Logo
+                    type="streamline"
+                    className="mb-4"
+                    logoWidth={60}
+                    logoHeight={60}
+                />
+
                 {emailSent ? (
                     <>
-                        <h3 className="mb-2">Check your email</h3>
+                        <h2 className="mb-2">Check your email</h2>
+
                         <p className="font-semibold heading-text">
                             We have sent a password recovery to your email
                         </p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Forgot Password</h3>
+                        <h2 className="mb-2">Forgot Password</h2>
+
                         <p className="font-semibold heading-text">
                             Please enter your email to receive a verification
                             code
@@ -47,11 +57,13 @@ export const ForgotPassword = ({
                     </>
                 )}
             </div>
+
             {message && (
                 <Alert showIcon className="mb-4" type="danger">
                     <span className="break-all">{message}</span>
                 </Alert>
             )}
+
             <ForgotPasswordForm
                 emailSent={emailSent}
                 setMessage={setMessage}
@@ -67,8 +79,10 @@ export const ForgotPassword = ({
                     Continue
                 </Button>
             </ForgotPasswordForm>
+
             <div className="mt-4 text-center">
                 <span>Back to </span>
+
                 <ActionLink
                     href={signInUrl}
                     className="heading-text font-bold"

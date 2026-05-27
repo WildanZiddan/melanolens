@@ -20,7 +20,7 @@ export const SignUp = ({ onSignUp, signInUrl = '/sign-in' }: SignUpProps) => {
 
     return (
         <>
-            <div className="mb-8">
+            <div className="mb-4">
                 <Logo
                     type="streamline"
                     mode={mode}
@@ -28,10 +28,10 @@ export const SignUp = ({ onSignUp, signInUrl = '/sign-in' }: SignUpProps) => {
                     logoHeight={60}
                 />
             </div>
-            <div className="mb-8">
-                <h3 className="mb-1">Sign Up</h3>
+            <div className="mb-6">
+                <h2 className="mb-2">Sign Up</h2>
                 <p className="font-semibold heading-text">
-                    And lets get started with your free trial
+                    Create your account and start using Melanolens
                 </p>
             </div>
             {message && (

@@ -1,3 +1,5 @@
+'use client'
+
 import classNames from 'classnames'
 import { APP_NAME } from '@/constants/app.constant'
 import Image from 'next/image'
@@ -25,7 +27,8 @@ const Logo = (props: LogoProps) => {
     } = props
 
     const width = logoWidth || (type === 'full' ? 120 : 40)
-    const height = logoHeight || (type === 'full' ? 40 : 40)
+
+    const height = logoHeight || 40
 
     return (
         <div className={classNames('logo', className)} style={style}>
@@ -33,8 +36,7 @@ const Logo = (props: LogoProps) => {
                 <>
                     <Image
                         className={classNames(
-                            '',
-                            type === 'full' ? '' : 'hidden',
+                            type !== 'full' && 'hidden',
                             imgClass,
                         )}
                         src={`${LOGO_SRC_PATH}logo-light-full.png`}
@@ -43,10 +45,10 @@ const Logo = (props: LogoProps) => {
                         height={height}
                         priority
                     />
+
                     <Image
                         className={classNames(
-                            '',
-                            type === 'streamline' ? '' : 'hidden',
+                            type !== 'streamline' && 'hidden',
                             imgClass,
                         )}
                         src={`${LOGO_SRC_PATH}logo-light-streamline.png`}
@@ -57,11 +59,12 @@ const Logo = (props: LogoProps) => {
                     />
                 </>
             )}
+
             {mode === 'dark' && (
                 <>
                     <Image
                         className={classNames(
-                            type === 'full' ? '' : 'hidden',
+                            type !== 'full' && 'hidden',
                             imgClass,
                         )}
                         src={`${LOGO_SRC_PATH}logo-dark-full.png`}
@@ -70,9 +73,10 @@ const Logo = (props: LogoProps) => {
                         height={height}
                         priority
                     />
+
                     <Image
                         className={classNames(
-                            type === 'streamline' ? '' : 'hidden',
+                            type !== 'streamline' && 'hidden',
                             imgClass,
                         )}
                         src={`${LOGO_SRC_PATH}logo-dark-streamline.png`}

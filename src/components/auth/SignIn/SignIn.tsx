@@ -29,7 +29,7 @@ const SignIn = ({
 
     return (
         <>
-            <div className="mb-8">
+            <div className="mb-4">
                 <Logo
                     type="streamline"
                     mode={mode}
@@ -37,10 +37,10 @@ const SignIn = ({
                     logoHeight={60}
                 />
             </div>
-            <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
+            <div className="mb-6">
+                <h2 className="mb-2">Welcome to Melanolens!</h2>
                 <p className="font-semibold heading-text">
-                    Please enter your credentials to sign in!
+                    Please enter your credentials to sign in
                 </p>
             </div>
             {message && (
