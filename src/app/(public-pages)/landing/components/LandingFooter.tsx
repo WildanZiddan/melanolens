@@ -34,15 +34,13 @@ const LandingFooter = ({ mode }: { mode: Mode }) => {
                             }}
                             className="relative flex flex-col gap-4 items-center justify-center py-20 px-8 text-center"
                         >
-                            <h2 className="text-5xl">Ready to Get Started?</h2>
+                            <h2 className="text-5xl">Siap Jaga Kesehatan Kulit Anda?</h2>
                             <p className="mt-4 max-w-[400px] mx-auto">
-                                Build modern, scalable applications effortlessly
-                                with Ecme. Take your project to the next level
-                                today!
+                                Mulai skrining dini gejala melanoma sekarang secara cepat, gratis, dan terstandardisasi dengan teknologi cerdas MelanoLens.
                             </p>
                             <div className="mt-6">
                                 <Button variant="solid" onClick={handlePreview}>
-                                    Get Started Now
+                                    Coba Sekarang!
                                 </Button>
                             </div>
                         </motion.div>

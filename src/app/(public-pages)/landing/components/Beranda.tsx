@@ -287,36 +287,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                             )}
                                         </div>
                                 </div>
-                                    {/* <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800 mt-4">
-                                        <div className="inline-flex items-center gap-2">
-                                            {Object.entries(
-                                                presetThemeSchemaConfig,
-                                            ).map(([key, value]) => (
-                                                <button
-                                                    key={key}
-                                                    className={classNames(
-                                                        'h-8 w-8 rounded-full flex items-center justify-center border-2 border-white',
-                                                        schema === key &&
-                                                            'ring-2 ring-primary',
-                                                    )}
-                                                    style={{
-                                                        backgroundColor:
-                                                            value[mode]
-                                                                .primary || '',
-                                                    }}
-                                                    onClick={() =>
-                                                        setSchema(key)
-                                                    }
-                                                >
-                                                    {schema === key ? (
-                                                        <TbCheck className="text-neutral text-lg" />
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div> */}
+
                                 </div>
                                 <div className="mt-6">
                                     <h4 className="font-bold">
@@ -339,7 +310,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 viewport={{ once: true }}
                             >
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 overflow-hidden relative h-[172px]"
+                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 overflow-hidden relative h-[260px]"
                                     style={cardStyles}
                                 >
                                     <motion.a
@@ -356,19 +327,19 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                             {mode === 'light' && (
                                                 <Image
                                                     className="rounded-lg"
-                                                    src="/img/landing/layouts/documentation.png"
+                                                    src="/img/landing/layouts/heatmap.jpeg"
                                                     width={630}
-                                                    height={562}
-                                                    alt="Ecme documentaion"
+                                                    height={620}
+                                                    alt="Heatmap"
                                                 />
                                             )}
                                             {mode === 'dark' && (
                                                 <Image
                                                     className="rounded-lg"
-                                                    src="/img/landing/layouts/documentation-dark.png"
+                                                    src="/img/landing/layouts/heatmap.jpeg"
                                                     width={630}
-                                                    height={562}
-                                                    alt="Ecme documentaion"
+                                                    height={620}
+                                                    alt="Heatmap"
                                                 />
                                             )}
                                         </div>

@@ -12,52 +12,34 @@ type DemoProps = {
 const stackList = [
     {
         id: 'react',
-        title: 'React',
+        title: '1. Registrasi & Login',
         description:
-            'A component-based JavaScript library for building user interfaces.',
+            'Masuk ke dalam sistem menggunakan akun Google yang sudah terintegrasi aman lewat fitur Split-Screen Authentication.',
     },
     {
         id: 'tailwind',
-        title: 'TailwindCSS',
+        title: '2. Unggah Citra Lesi',
         description:
-            'A utility-first CSS framework that allows for rapid, responsive design.',
+            'Unggah citra lesi kulit yang ingin dianalisis menggunakan fitur unggah gambar yang tersedia.',
     },
     {
         id: 'typescript',
-        title: 'TypeScript',
+        title: '3. Ekstraksi Medis ABCDE',
         description:
-            'Static typing for improved code quality and development efficiency.',
+            'Sistem Computer Vision akan otomatis menganalisis karakteristik fisik lesi berdasarkan parameter ketidaksimetrisan, pinggiran, warna, dan diameter.',
     },
     {
         id: 'nextjs',
-        title: 'Next.js',
+        title: '4. Cek Peta Atensi AI',
         description:
-            'A React framework for building full-stack web applications.',
+            'Lihat visualisasi Attention Maps (Heatmap) untuk mengetahui area interpretasi model Deep Learning yang menjadi dasar keputusan sistem.',
     },
     {
         id: 'react-hook-form',
-        title: 'React Hook Form',
+        title: '5. Unduh Laporan Medis',
         description:
-            'Efficient form management with minimal performance impact.',
-    },
-    {
-        id: 'zod',
-        title: 'Zod',
-        description:
-            'Schema validation made easy with TypeScript-first design.',
-    },
-    {
-        id: 'zustand',
-        title: 'Zustand',
-        description:
-            'A lightweight state management solution for managing complex application states.',
-    },
-    {
-        id: 'next-auth',
-        title: 'Auth.js',
-        description:
-            'Auth.js is a Web API-based library for simple, secure, and extensible authentication.',
-    },
+            'Dapatkan hasil kalkulasi skor probabilitas akhir dan simpan riwayat skrining ke dashboard untuk pemantauan perkembangan lesi secara berkala.',
+    }
 ]
 
 const TechStack = ({ mode }: DemoProps) => {
@@ -73,16 +55,14 @@ const TechStack = ({ mode }: DemoProps) => {
                 viewport={{ once: true }}
             >
                 <motion.h2 className="my-6 text-5xl">
-                    Core Technologies Powering
+                    Panduan Penggunaan MelanoLens
                 </motion.h2>
                 <motion.p className="mx-auto max-w-[600px]">
-                    Ecme built using cutting-edge technologies to ensure
-                    streamlined, scalability, and a seamless developer
-                    experience.
+                    Ikuti langkah-langkah mudah berikut untuk mulai melakukan penapisan awal risiko melanoma secara mandiri dan objektif.
                 </motion.p>
             </motion.div>
             <Container>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {stackList.map((stack, index) => (
                         <motion.div
                             key={stack.id}
