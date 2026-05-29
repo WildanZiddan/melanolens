@@ -5,7 +5,7 @@ import NavigationBar from './NavigationBar'
 import Beranda from './Beranda'
 import Demos from './Demos'
 import Panduan from './Panduan'
-import OtherFeatures from './OtherFeatures'
+import Faq from './Faq'
 import Components from './Components'
 import LandingFooter from './LandingFooter'
 import useTheme from '@/utils/hooks/useTheme'
@@ -22,7 +22,7 @@ const Landing = () => {
     }
 
     return (
-        <main className="px-4 lg:px-0 text-base bg-white dark:bg-teal-600">
+        <main className="px-4 lg:px-0 text-base bg-white dark:bg-slate-900">
             <NavigationBar toggleMode={toggleMode} mode={mode} />
             <div className="relative">
                 <div
@@ -42,7 +42,7 @@ const Landing = () => {
             <Panduan mode={mode} />
             {/* <Demos mode={mode} /> */}
             {/* <TechStack /> */}
-            <OtherFeatures />
+            <Faq mode={mode} />
             {/* <Components /> */}
             <LandingFooter mode={mode} />
         </main>

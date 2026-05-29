@@ -61,7 +61,7 @@ const HeroContent = ({ mode }: { mode: Mode }) => {
                         </Button> */}
                     </motion.div>
                 </div>
-                <div className="p-2 lg:p-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-2xl lg:rounded-[32px] mt-20 relative">
+                <div className="p-2 lg:p-4 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-2xl lg:rounded-[32px] mt-20 relative">
                     <div className="absolute inset-x-0 bottom-0 h-40 w-full bg-gradient-to-b from-transparent via-white to-white dark:via-black/50 dark:to-black scale-[1.1] pointer-events-none" />
                     <div className="bg-white dark:bg-black dark:border-gray-700 border border-gray-200 rounded-[24px]">
                         {mode === MODE_LIGHT && (

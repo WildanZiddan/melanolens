@@ -11,38 +11,38 @@ type DemoProps = {
 
 const stackList = [
     {
-        id: 'react',
-        title: '1. Registrasi & Login',
+        id: '1',
+        title: 'Registrasi & Login',
         description:
             'Masuk ke dalam sistem menggunakan akun Google yang sudah terintegrasi aman lewat fitur Split-Screen Authentication.',
     },
     {
-        id: 'tailwind',
-        title: '2. Unggah Citra Lesi',
+        id: '2',
+        title: 'Unggah Citra Lesi',
         description:
             'Unggah citra lesi kulit yang ingin dianalisis menggunakan fitur unggah gambar yang tersedia.',
     },
     {
-        id: 'typescript',
-        title: '3. Ekstraksi Medis ABCDE',
+        id: '3',
+        title: 'Ekstraksi Medis ABCDE',
         description:
             'Sistem Computer Vision akan otomatis menganalisis karakteristik fisik lesi berdasarkan parameter ketidaksimetrisan, pinggiran, warna, dan diameter.',
     },
     {
-        id: 'nextjs',
-        title: '4. Cek Peta Atensi AI',
+        id: '4',
+        title: 'Cek Peta Atensi AI',
         description:
             'Lihat visualisasi Attention Maps (Heatmap) untuk mengetahui area interpretasi model Deep Learning yang menjadi dasar keputusan sistem.',
     },
     {
-        id: 'react-hook-form',
-        title: '5. Unduh Laporan Medis',
+        id: '5',
+        title: 'Unduh Laporan Medis',
         description:
             'Dapatkan hasil kalkulasi skor probabilitas akhir dan simpan riwayat skrining ke dashboard untuk pemantauan perkembangan lesi secara berkala.',
     }
 ]
 
-const TechStack = ({ mode }: DemoProps) => {
+const Panduan = ({ mode }: DemoProps) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
     return (
@@ -82,7 +82,7 @@ const TechStack = ({ mode }: DemoProps) => {
                             <AnimatePresence>
                                 {hoveredIndex === index && (
                                     <motion.span
-                                        className="absolute inset-0 h-full w-full bg-gray-100 dark:bg-zinc-800/[0.8] block  rounded-3xl"
+                                        className="absolute inset-0 h-full w-full bg-gray-100 dark:bg-slate-600/[0.8] block  rounded-3xl"
                                         layoutId="hoverBackground"
                                         initial={{ opacity: 0 }}
                                         animate={{
@@ -99,9 +99,9 @@ const TechStack = ({ mode }: DemoProps) => {
                                     />
                                 )}
                             </AnimatePresence>
-                            <div className="p-4 rounded-2xl z-10 relative bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 h-full group">
+                            <div className="p-4 rounded-2xl z-10 relative bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-900 h-full group">
                                 <div className="flex flex-col">
-                                    <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-600 group-hover:border-primary">
+                                    <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-slate-600 group-hover:border-primary">
                                         <img
                                             className="max-h-8"
                                             src={`/img/landing/tech/${stack.id}.png`}
@@ -126,4 +126,4 @@ const TechStack = ({ mode }: DemoProps) => {
     )
 }
 
-export default TechStack
+export default Panduan

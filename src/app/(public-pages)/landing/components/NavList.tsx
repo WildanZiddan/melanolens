@@ -72,7 +72,7 @@ const NavList = ({
                             }}
                             className={classNames(
                                 'absolute inset-0 rounded-xl',
-                                show && 'bg-gray-100 dark:bg-gray-700',
+                                show && 'bg-gray-100 dark:bg-slate-700',
                             )}
                         />
                     )}

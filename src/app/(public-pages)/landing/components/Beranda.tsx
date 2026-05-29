@@ -43,7 +43,7 @@ const Card = ({
             transition={transition}
             whileInView={whileInView}
             className={classNames(
-                'bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-800 p-6',
+                'bg-gray-50 dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-800 p-6',
                 className,
             )}
             viewport={viewport}
@@ -183,7 +183,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                 href={`https://ecme-next.themenate.net/ui-components/${item.link}`}
                 target="_blank"
                 rel="noreferrer"
-                className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-20 w-20 flex items-center justify-center rounded-2xl"
+                className="border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-500 dark:hover:bg-slate-700 h-20 w-20 flex items-center justify-center rounded-2xl"
             >
                 <span className="text-primary text-4xl">
                     {componentsIcons[item.id]}
@@ -224,24 +224,15 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 viewport={{ once: true }}
                             >
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4"
+                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4"
                                     style={cardStyles}
                                 >
-                                    {/* <div className="p-4 flex justify-center items-center rounded-xl gap-2 border border-gray-200 dark:border-white/[0.2] bg-white dark:bg-gray-800">
-                                        <Switcher
-                                            checked={mode === 'dark'}
-                                            onChange={onModeChange}
-                                        />
-                                        <span>
-                                            {mode === 'dark' ? 'Dark' : 'Light'}
-                                        </span>
-                                    </div> */}
 
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 relative h-[106px]"
+                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4 relative h-[106px]"
                                     style={cardStyles}
                                 >
-                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-lg">
+                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-lg">
                                             {mode === 'light' && (
                                                 <Image
                                                     className="rounded-lg"
@@ -263,10 +254,10 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                         </div>
                                 </div>
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 relative h-[124px]"
+                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4 relative h-[124px]"
                                     style={cardStyles}
                                 >
-                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-lg shadow-2xl dark:shadow-white/10">
+                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-lg shadow-2xl dark:shadow-white/10">
                                             {mode === 'light' && (
                                                 <Image
                                                     className="rounded-lg"
@@ -310,7 +301,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 viewport={{ once: true }}
                             >
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 overflow-hidden relative h-[260px]"
+                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4 overflow-hidden relative h-[260px]"
                                     style={cardStyles}
                                 >
                                     <motion.a
@@ -323,7 +314,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                         target="_blank"
                                         className="absolute max-w-[330px] top-7 -right-12"
                                     >
-                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-lg relative shadow-2xl dark:shadow-white/40">
+                                        <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-lg relative shadow-2xl dark:shadow-white/40">
                                             {mode === 'light' && (
                                                 <Image
                                                     className="rounded-lg"
@@ -368,7 +359,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 viewport={{ once: true }}
                             >
                                 <div
-                                    className="rounded-2xl bg-white dark:bg-gray-900 p-4 overflow-hidden relative"
+                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4 overflow-hidden relative"
                                     style={cardStyles}
                                 >
                                     <div className="min-h-[270px] flex items-center justify-center w-full">
@@ -399,7 +390,7 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                         >
                             <div className="flex flex-col justify-between h-full">
                                 <div
-                                    className="flex-1 rounded-2xl bg-white dark:bg-gray-900 p-4 overflow-hidden relative"
+                                    className="flex-1 rounded-2xl bg-white dark:bg-slate-900 p-4 overflow-hidden relative"
                                     style={cardStyles}
                                 >
                                     <div className="min-h-[270px] flex items-center justify-center w-full">

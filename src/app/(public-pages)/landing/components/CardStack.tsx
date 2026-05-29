@@ -39,7 +39,7 @@ const CardStack = ({
                 return (
                     <motion.div
                         key={card.id}
-                        className="cursor-pointer absolute  h-60 w-60 md:h-70 md:w-[420px] rounded-2xl p-3 shadow-xl border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-500  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between"
+                        className="cursor-pointer absolute  h-60 w-60 md:h-70 md:w-[420px] rounded-2xl p-3 shadow-xl border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-500  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between"
                         style={{
                             transformOrigin: 'top center',
                         }}

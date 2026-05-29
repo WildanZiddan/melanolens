@@ -27,8 +27,8 @@ const navMenu = [
     },
     {
         title: 'FAQ',
-        value: 'components',
-        to: 'components',
+        value: 'faq',
+        to: 'faq',
     },
     {
         title: 'Documentations',
@@ -62,7 +62,7 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                 className={classNames(
                     'flex flex-row self-start items-center justify-between py-3 max-w-7xl mx-auto px-4 rounded-xl relative z-[60] w-full transition duration-200',
                     isSticky
-                        ? 'bg-white dark:bg-gray-800 shadow-lg'
+                        ? 'bg-white dark:bg-slate-800 shadow-lg'
                         : 'bg-transparent dark:bg-transparent',
                 )}
             >

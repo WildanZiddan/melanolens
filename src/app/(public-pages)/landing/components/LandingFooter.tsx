@@ -67,7 +67,7 @@ const LandingFooter = ({ mode }: { mode: Mode }) => {
                             )}
                         </Link>
                         <p className="text-center">
-                            Copyright © {year} Theme_Nate. All rights reserved.
+                            Copyright © {year} MelanoLens. All rights reserved.
                         </p>
                     </div>
                 </div>

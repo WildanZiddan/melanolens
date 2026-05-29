@@ -3,6 +3,13 @@ import RegionMap from '@/components/shared/RegionMap'
 import { TbCircleCheck } from 'react-icons/tb'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { useState } from 'react'
+import type { Mode } from '@/@types/theme'
+
+type DemoProps = {
+    mode: Mode
+}
+
 
 const mapMeta: Record<string, { img: string }> = {
     us: { img: '/img/countries/US.png' },
@@ -47,9 +54,10 @@ const PointList = ({ children }: { children: ReactNode }) => {
     )
 }
 
-const OtherFeatures = () => {
+const Faq = ({ mode }: DemoProps) => {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
     return (
-        <div id="otherFeatures" className="relative z-20 py-10 md:py-40">
+        <div id="faq" className="relative z-20 py-10 md:py-40">
             <Container>
                 <motion.div
                     className="text-center mb-12"
@@ -59,16 +67,15 @@ const OtherFeatures = () => {
                     viewport={{ once: true }}
                 >
                     <motion.h2 className="my-6 text-5xl">
-                        Tailored for Every Need
+                        Pertanyaan yang Sering Diajukan (FAQ)
                     </motion.h2>
                     <motion.p className="mx-auto max-w-[600px]">
-                        Built to adapt to any user or region, delivering
-                        seamless performance across all devices and languages.
+                        Temukan jawaban seputar teknologi penapisan, standardisasi medis, dan cara kerja platform asisten medis MelanoLens.
                     </motion.p>
                 </motion.div>
                 <div className="mt-20">
                     <motion.div
-                        className="bg-gray-100 dark:bg-gray-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10"
+                        className="bg-gray-100 dark:bg-slate-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10"
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{
@@ -80,39 +87,32 @@ const OtherFeatures = () => {
                     >
                         <div className="grid lg:grid-cols-2 gap-8 lg:gap-4">
                             <div>
-                                <h3 className="text-4xl">Responsive Design</h3>
+                                <h3 className="text-4xl">Seputar Metode Penapisan Medis</h3>
                                 <p className="mt-6 max-w-[550px] text-lg">
-                                    Your app will look stunning on all devices,
-                                    from desktops to tablets to mobile phones.
-                                    No need to worry about scaling—it&apos;s
-                                    built to work flawlessly on every screen
-                                    size.
+                                    Berikut adalah penjelasan singkat mengenai landasan medis yang digunakan oleh sistem kecerdasan buatan MelanoLens dalam mendeteksi gejala melanoma.
                                 </p>
                                 <div className="mt-12 flex flex-col gap-4">
                                     <PointList>
-                                        Automatically adjusts layouts for
-                                        different screen resolutions.
+                                        <strong>Q: Apa itu metode ABCDE?</strong>  Metode standardisasi klinis internasional untuk memeriksa karakteristik lesi kulit berdasarkan Asimetri, Pinggiran, Warna, Diameter, dan Perkembangannya.
                                     </PointList>
                                     <PointList>
-                                        Optimized media queries for performance
-                                        on smaller devices.
+                                        <strong>Q: Apakah aplikasi ini bisa menggantikan dokter spesialis?</strong> Tidak. MelanoLens dirancang sebagai alat penapisan awal (early screening) dan asisten medis objektif, bukan alat diagnosis mutlak pengganti dokter spesialis kulit.
                                     </PointList>
                                     <PointList>
-                                        Smooth transitions and fluid design for
-                                        touch interactions.
+                                        <strong>Q: Seberapa akurat analisis parameter medis ini?</strong> Sistem mengekstrak karakteristik fisik lesi jaringan secara kuantitatif berdasarkan bobot fitur citra dermoskopi yang diunggah pengguna.
                                     </PointList>
                                 </div>
                             </div>
                             <div className="relative flex justify-center">
                                 <motion.div
-                                    className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-[32px] max-w-[300px] lg:absolute lg:top-[-50px]"
+                                    className="p-2 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-[32px] max-w-[300px] lg:absolute lg:top-[0px]"
                                     whileHover={{ y: -20 }}
                                 >
-                                    <div className="absolute inset-x-0 bottom-0 h-20 w-full bg-gradient-to-b from-transparent via-gray-100 to-gray-100 dark:via-zinc-800/70 dark:to-gray-800 scale-[1.1] pointer-events-none" />
-                                    <div className="bg-white dark:bg-black dark:border-gray-700 border border-gray-200 rounded-[24px] overflow-hidden max-h-[450px]">
+                                    <div className="absolute inset-x-0 bottom-0 h-20 w-full  via-gray-100 to-gray-100 dark:via-zinc-800/70 dark:to-gray-800 scale-[1.1] pointer-events-none" />
+                                    <div className="bg-white dark:bg-black dark:border-gray-700 border border-gray-200 rounded-[24px] max-h-[550px]">
                                         <img
-                                            src="/img/landing/features/mobile.png"
-                                            alt="Mobile view"
+                                            src="/img/landing/faq/melanoma.png"
+                                            alt="Melanoma example"
                                             className="rounded-[24px]"
                                         />
                                     </div>
@@ -121,7 +121,7 @@ const OtherFeatures = () => {
                         </div>
                     </motion.div>
                     <motion.div
-                        className="bg-gray-100 dark:bg-gray-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10"
+                        className="bg-gray-100 dark:bg-slate-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10"
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{
@@ -178,54 +178,41 @@ const OtherFeatures = () => {
                             </div>
                             <div>
                                 <h3 className="text-4xl">
-                                    Multilanguage Support
+                                    Teknologi AI & Transparansi Sistem
                                 </h3>
                                 <p className="mt-6 max-w-[550px] text-lg">
-                                    Expand your reach with built-in multilingual
-                                    support. Easily switch between languages and
-                                    ensure a smooth experience for users around
-                                    the globe.
+                                    Penjelasan mengenai implementasi teknologi Deep Learning dan bagaimana kecerdasan buatan memberikan visualisasi yang dapat dipertanggungjawabkan.
                                 </p>
                                 <div className="mt-12 flex flex-col gap-4">
                                     <PointList>
-                                        Quick and easy language switching from a
-                                        dropdown.
+                                        <strong>Q: Apa fungsi Attention Maps (Heatmap) pada hasil?</strong> Memberikan transparansi keputusan AI (Explainable AI) dengan menandai area piksel lesi kulit mana yang paling memengaruhi hasil prediksi sistem.
                                     </PointList>
                                     <PointList>
-                                        Supports all major languages and easily
-                                        extensible to new ones.
+                                        <strong>Q: Bagaimana model AI memproses citra yang diunggah?</strong> Citra dermoskopi diproses melalui jaringan saraf tiruan (Deep Learning) yang telah dilatih mengekstrak karakteristik visual lesi secara presisi.
                                     </PointList>
                                     <PointList>
-                                        Integrated with{' '}
-                                        <code>react-i18next</code> for seamless
-                                        translations.
+                                        <strong>Q: Apakah data citra kulit pengguna tersimpan aman?</strong> Ya, semua citra rekam medis di dashboard pemantauan klinis disimpan terenkripsi demi menjaga privasi dan kerahasiaan data pasien.
                                     </PointList>
                                 </div>
                             </div>
                         </div>
                     </motion.div>
-                    <motion.div className="bg-gray-100 dark:bg-gray-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10">
+                    <motion.div className="bg-gray-100 dark:bg-slate-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10">
                         <div className="grid lg:grid-cols-2 gap-8 lg:gap-4">
                             <div>
-                                <h3 className="text-4xl">RTL Layout Ready</h3>
+                                <h3 className="text-4xl">Aksesibilitas & Keamanan Akun</h3>
                                 <p className="mt-6 max-w-[550px] text-lg">
-                                    Whether your users are in right-to-left
-                                    regions or left-to-right, our layout options
-                                    have you covered. Effortlessly switch to RTL
-                                    for languages like Arabic or Hebrew.
+                                    Penjelasan mengenai cara mengelola riwayat penapisan, hak akses perangkat, serta jaminan perlindungan privasi data rekam medis pada dashboard pasien.
                                 </p>
                                 <div className="mt-12 flex flex-col gap-4">
                                     <PointList>
-                                        Instant RTL conversion with a single
-                                        setting change.
+                                        <strong>Q: Apakah data gambar saya dijamin rahasia?</strong> Ya, seluruh citra lesi kulit yang diunggah diproses secara aman menggunakan protokol enkripsi end-to-end dan hanya dapat diakses oleh pemilik akun melalui dashboard pribadi.
                                     </PointList>
                                     <PointList>
-                                        Fully tested for visual consistency and
-                                        readability.
+                                        <strong>Q: Bagaimana cara melihat riwayat skrining sebelumnya?</strong> Setiap hasil analisis akan otomatis tersimpan dalam modul rekam medis digital. Lu bisa memantau tren perkembangan lesi kapan saja secara berkala.
                                     </PointList>
                                     <PointList>
-                                        Works across all components, ensuring
-                                        uniform user experience.
+                                        <strong>Q: Apakah platform ini memerlukan perangkat khusus?</strong> Tidak. MelanoLens berbasis web responsif, jadi bisa diakses dengan lancar lewat browser smartphone, tablet, maupun laptop tanpa perlu install aplikasi tambahan.
                                     </PointList>
                                 </div>
                             </div>
@@ -234,9 +221,9 @@ const OtherFeatures = () => {
                                     whileHover={{ y: -20 }}
                                     className="relative flex justify-center w-full"
                                 >
-                                    <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-700 rounded-[32px] max-w-[550px] lg:absolute ">
-                                        <div className="absolute inset-x-0 bottom-0 h-20 w-full bg-gradient-to-b from-transparent via-gray-100 to-gray-100 dark:via-zinc-800/50 dark:to-gray-800 scale-[1.1] pointer-events-none" />
-                                        <div className="bg-white dark:border-gray-700 border border-gray-200 rounded-[24px] overflow-hidden p-2">
+                                    <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-[32px] max-w-[550px] lg:absolute ">
+                                        <div className="absolute inset-x-0 bottom-0 h-20 w-full bg-gradient-to-b from-transparent via-gray-100 to-gray-100 dark:via-slate-800/50 dark:to-slate-800 scale-[1.1] pointer-events-none" />
+                                        <div className="bg-white dark:border-slate-700 border border-gray-200 rounded-[24px] overflow-hidden p-2">
                                             <img
                                                 src="/img/landing/features/rtl.png"
                                                 alt="App screenshot"
@@ -253,4 +240,4 @@ const OtherFeatures = () => {
     )
 }
 
-export default OtherFeatures
+export default Faq
