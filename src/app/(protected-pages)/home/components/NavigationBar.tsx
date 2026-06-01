@@ -5,10 +5,10 @@ import Drawer from '@/components/ui/Drawer'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
 import Image from 'next/image'
-import { TbMenu2, TbUser, TbLogout, TbLayoutDashboard, TbId } from 'react-icons/tb' // 📝 Ditambah TbId
+import { TbMenu2, TbUser, TbLogout, TbLayoutDashboard, TbId } from 'react-icons/tb'
 import Link from 'next/link'
 import type { Mode } from '@/@types/theme'
-import ProfileCard from '@/components/shared/ProfileCard' // 🔑 Import komponen popup kita tadi
+import ProfileCard from '@/components/shared/ProfileCard'
 
 type NavigationProps = {
     toggleMode: () => void
@@ -43,7 +43,7 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false) 
-    const [profileOpen, setProfileOpen] = useState(false) // 🔑 State pemicu munculnya popup ProfileCard
+    const [profileOpen, setProfileOpen] = useState(false)
     const [userData, setUserData] = useState({ name: 'User', role: 'user' }) 
 
     useEffect(() => {
@@ -170,7 +170,6 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                         <span className="sr-only">Toggle theme</span>
                     </button>
 
-                    {/* 👤 TOMBOL AVATAR PROFIL & MENU DROPDOWN */}
                     <div className="relative ml-1">
                         <button
                             onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -179,7 +178,6 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                             <TbUser size={18} />
                         </button>
 
-                        {/* Kontainer Dropdown Menu */}
                         {dropdownOpen && (
                             <>
                                 <div 
@@ -195,11 +193,10 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                                         </span>
                                     </div>
                                     
-                                    {/* 🔑 TOMBOL AMBIL DATA POPUP PROFIL BARU */}
                                     <button
                                         onClick={() => {
-                                            setDropdownOpen(false) // Tutup dropdown menu bawaan
-                                            setProfileOpen(true)   // Nyalain popup modal ProfileCard
+                                            setDropdownOpen(false)
+                                            setProfileOpen(true)
                                         }}
                                         className="w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-left transition"
                                     >
@@ -234,7 +231,6 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                 </div>
             </div>
 
-            {/* 🔑 KUNCI MODAL POPUP: Diletakkan di luar kontainer flex biar posisinya absolut di layar tengah */}
             <ProfileCard 
                 isOpen={profileOpen} 
                 onClose={() => setProfileOpen(false)} 
