@@ -30,11 +30,6 @@ const navMenu = [
         value: 'faq',
         to: 'faq',
     },
-    {
-        title: 'Documentations',
-        value: 'documentations',
-        href: '/guide/documentation/introduction',
-    },
 ]
 
 const Navigation = ({ toggleMode, mode }: NavigationProps) => {

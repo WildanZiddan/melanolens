@@ -1,5 +1,7 @@
 'use client'
 
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -64,12 +66,69 @@ const SignInForm = (props: SignInFormProps) => {
     })
 
     const handleSignIn = async (values: SignInFormSchema) => {
-        if (onSignIn) {
-            onSignIn({
-                values,
-                setSubmitting,
-                setMessage,
+        setSubmitting(true)
+        setMessage('')
+
+        try {
+            // 🚀 1. TEMBAK REAL-TIME KE FASTAPI BACKEND
+            const res = await fetch("http://127.0.0.1:8000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: values.email,
+                    password: values.password,
+                }),
             })
+
+            const data = await res.json()
+
+            // 2. Jika FastAPI menyatakan login sukses
+            // 2. Jika FastAPI menyatakan login sukses
+            if (res.ok && data && data.user) {
+                
+                // 🔑 3. TANCEP COOKIE MANDIRI RESMI
+                document.cookie = "melanolens-session=success_authenticated; path=/; max-age=86400; SameSite=Lax;"
+
+                // 🧠 4. BACA ROLE & NAME BERDASARKAN STRUKTUR JSON FASTAPI LU!
+                const userRole = data.user.authority[0] // 👈 Ngambil isi array ['user'] atau ['admin']
+                const name = data.user.name             // 👈 Ngambil data.user.name sesuai isi return python lu
+                const email = data.user.email           // 👈 Ngambil data.user.email sesuai isi return python lu
+                const tanggalLahir = data.user.tanggal_lahir || '' // 👈 Ngambil data.user.tanggal_lahir sesuai isi return python lu, default '' kalau kosong
+                const jenisKelamin = data.user.jenis_kelamin || '' // 👈 Ngambil data.user.jenis_kelamin sesuai isi return python lu, default '' kalau kosong
+                const pekerjaan = data.user.pekerjaan || '' // 👈 Ngambil data.user.pekerjaan sesuai isi return python lu, default '' kalau kosong
+
+                // Simpan token bearer dari FastAPI juga biar nanti kalau mau fetch data citra aman
+                if (data.token) {
+                    localStorage.setItem('token', data.token)
+                }
+
+                localStorage.setItem('name', name)
+                localStorage.setItem('role', userRole)
+                localStorage.setItem('email', values.email)
+                localStorage.setItem('tanggal_lahir', data.user.tanggal_lahir || '')
+                localStorage.setItem('jenis_kelamin', data.user.jenis_kelamin || '')
+                localStorage.setItem('pekerjaan', data.user.pekerjaan || '')
+
+                console.log(`Halo ${name}, login sukses sebagai: ${userRole}`)
+
+                // 🔀 5. KASIH JEDA TIPIS BIAR COOKIE SELESAI DITULIS BROWSER
+                setTimeout(() => {
+                    if (userRole === 'admin') {
+                        window.location.href = '/dashboards/ecommerce' 
+                    } else {
+                        window.location.href = '/home' 
+                    }
+                }, 250)
+
+            } else {
+                setMessage(data.detail || 'Email atau password salah!')
+                setSubmitting(false)
+            }
+
+        } catch (error) {
+            console.error('Koneksi terputus ke FastAPI:', error)
+            setMessage('Gagal terhubung ke server backend FastAPI!')
+            setSubmitting(false)
         }
     }
 
@@ -83,7 +142,6 @@ const SignInForm = (props: SignInFormProps) => {
                             <div className="flex items-center gap-2">
                                 <span className="flex items-center">
                                     <span>Email</span>
-
                                     <span className="text-red-500 ml-1">*</span>
                                 </span>
 
@@ -118,7 +176,6 @@ const SignInForm = (props: SignInFormProps) => {
                             <div className="flex items-center gap-2">
                                 <span className="flex items-center">
                                     <span>Password</span>
-
                                     <span className="text-red-500 ml-1">*</span>
                                 </span>
 

@@ -1,28 +1,18 @@
-// import authRoute from './authRoute'
-// import type { Routes } from '@/@types/routes'
-
-// export const protectedRoutes: Routes = {
-//     '/home': {
-//         key: 'home',
-//         authority: [],
-//         meta: {
-//             pageBackgroundType: 'plain',
-//             pageContainerType: 'contained',
-//         },
-//     },
-// }
-
-// export const publicRoutes: Routes = {}
-
-// export const authRoutes = authRoute
-
 import authRoute from './authRoute'
 import type { Routes } from '@/@types/routes'
 
 export const protectedRoutes: Routes = {
     '/home': {
         key: 'home',
-        authority: [],
+        authority: ['user'], // 🔒 Hanya user biasa/pasien yang bisa masuk ke halaman ini
+        meta: {
+            pageBackgroundType: 'plain',
+            pageContainerType: 'contained',
+        },
+    },
+    '/dashboards': {
+        key: 'dashboards',
+        authority: ['admin'], // 🔒 Hanya admin/dokter yang bisa masuk ke panel dashboard admin
         meta: {
             pageBackgroundType: 'plain',
             pageContainerType: 'contained',
@@ -30,7 +20,6 @@ export const protectedRoutes: Routes = {
     },
 }
 
-// Benerin di sini: Daftarkan rute '/' agar dikenali sebagai halaman publik
 export const publicRoutes: Routes = {
     '/': {
         key: 'landing',
