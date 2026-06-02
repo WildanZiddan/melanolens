@@ -12,7 +12,6 @@ import {
     NAV_ITEM_TYPE_ITEM,
 } from '@/constants/navigation.constant'
 import useMenuActive from '@/utils/hooks/useMenuActive'
-import useTranslation from '@/utils/hooks/useTranslation'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree, TranslationFn } from '@/@types/navigation'
 
@@ -37,17 +36,16 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
         navigationTree = [],
         onMenuItemClick,
         direction = themeConfig.direction,
-        translationSetup,
         userAuthority,
     } = props
 
+    // 🔑 JALUR PINTAS: Abaikan modul i18n, langsung lempar title text asli config-nya
     const translationPlaceholder = (key: string, fallback?: string) => {
         return fallback || key
     }
 
-    const t = (
-        translationSetup ? useTranslation() : translationPlaceholder
-    ) as TranslationFn
+    // Paksa t selalu mengeksekusi placeholder murni agar sub-menu tidak ikut botak
+    const t = translationPlaceholder as TranslationFn
 
     const [defaulExpandKey, setDefaulExpandKey] = useState<string[]>([])
 
@@ -121,11 +119,11 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                         )}
                         {nav.type === NAV_ITEM_TYPE_TITLE && (
                             <AuthorityCheck
+                                key={nav.key}
                                 userAuthority={userAuthority}
                                 authority={nav.authority}
                             >
                                 <MenuGroup
-                                    key={nav.key}
                                     label={t(nav.translateKey, nav.title) || nav.title}
                                 >
                                     {nav.subMenu &&

@@ -25,7 +25,7 @@ const FooterContent = () => {
                     href="/#"
                     onClick={(e) => e.preventDefault()}
                 >
-                    Term & Conditions
+                    Syarat & Ketentuan
                 </Link>
                 <span className="mx-2 text-muted"> | </span>
                 <Link
@@ -33,7 +33,7 @@ const FooterContent = () => {
                     href="/#"
                     onClick={(e) => e.preventDefault()}
                 >
-                    Privacy & Policy
+                    Kebijakan Privasi
                 </Link>
             </div>
         </div>

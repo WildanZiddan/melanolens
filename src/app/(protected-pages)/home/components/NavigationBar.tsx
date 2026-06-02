@@ -204,7 +204,7 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                                         <span>Cek Profil</span>
                                     </button>
 
-                                    {/* Tombol Panel Admin khusus jika role di-set sebagai admin
+                                    {/* Tombol Panel Admin khusus jika role di-set sebagai admin */}
                                     {userData.role === 'admin' && (
                                         <Link 
                                             href="/dashboards/ecommerce"
@@ -214,7 +214,7 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                                             <TbLayoutDashboard size={16} />
                                             <span>Panel Admin</span>
                                         </Link>
-                                    )} */}
+                                    )}
 
                                     <button
                                         onClick={handleSignOut}

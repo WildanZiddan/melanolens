@@ -50,7 +50,7 @@ const _SidePanel = (props: SidePanelProps) => {
                 onClose={closePanel}
                 onRequestClose={closePanel}
             >
-                <SidePanelContent />
+                <SidePanelContent callBackClose={closePanel} />
             </Drawer>
         </>
     )

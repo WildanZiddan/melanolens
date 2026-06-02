@@ -11,12 +11,17 @@ const dirList = [
     { value: THEME_ENUM.DIR_RTL, label: 'RTL' },
 ]
 
-const DirectionSwitcher = () => {
+const DirectionSwitcher = ({
+    callBackClose,
+}: {
+    callBackClose?: () => void
+}) => {
     const setDirection = useTheme((state) => state.setDirection)
     const direction = useTheme((state) => state.direction)
 
     const onDirChange = (val: Direction) => {
         setDirection(val)
+        callBackClose?.()
     }
 
     return (

@@ -1,7 +1,11 @@
 import ThemeConfigurator from '@/components/template/ThemeConfigurator'
 
-const SidePanelContent = () => {
-    return <ThemeConfigurator />
+export type SidePanelContentProps = {
+    callBackClose?: () => void
+}
+
+const SidePanelContent = (props: SidePanelContentProps) => {
+    return <ThemeConfigurator {...props} />
 }
 
 export default SidePanelContent

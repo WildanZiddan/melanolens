@@ -5,6 +5,9 @@ import Header from '@/components/template/Header'
 import MobileNav from '@/components/template/MobileNav'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import Search from '@/components/template/Search'
+import Notification from '@/components/template/Notification'
+import SidePanel from '@/components/template/SidePanel'
 import LayoutBase from '@/components//template/LayoutBase'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
@@ -24,10 +27,13 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                             <>
                                 <MobileNav />
                                 <SideNavToggle />
+                                <Search />
                             </>
                         }
                         headerEnd={
                             <>
+                                {/* <Notification /> */}
+                                <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }
