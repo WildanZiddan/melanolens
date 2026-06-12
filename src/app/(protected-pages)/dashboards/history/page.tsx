@@ -100,7 +100,7 @@ export default function AdminHistoryPage() {
                 <Card className="text-center py-20 border border-dashed border-slate-200 dark:border-slate-800">
                     <div className="text-4xl text-slate-300 mb-3 flex justify-center"><TbSearch /></div>
                     <p className="font-semibold text-sm heading-text">Data Tidak Ditemukan</p>
-                    <p className="text-xs text-slate-400 mt-1">Tidak ada riwayat rekam medis pasien yang cocok dengan kata kunci pencarian lu, Dan.</p>
+                    <p className="text-xs text-slate-400 mt-1">Tidak ada riwayat rekam medis pasien yang cocok dengan kata kunci pencarian Anda.</p>
                 </Card>
             ) : (
                 <Card className="p-2 overflow-x-auto rounded-2xl border border-slate-100 dark:border-slate-800">

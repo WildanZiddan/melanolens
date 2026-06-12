@@ -15,10 +15,10 @@ import toast from '@/components/ui/toast'
 import appConfig from '@/configs/app.config'
 
 const profileValidationSchema = z.object({
-    nama: z.string().min(3, { message: 'Nama lengkap minimal harus 3 karakter, Mek!' }),
+    nama: z.string().min(3, { message: 'Nama lengkap minimal harus 3 karakter.' }),
     email: z.string().email({ message: 'Gunakan format email yang valid!' }),
     tanggal_lahir: z.string().min(1, { message: 'Tanggal lahir wajib diisi!' }),
-    jenis_kelamin: z.string().min(1, { message: 'Pilih jenis kelamin lu, Dan!' }),
+    jenis_kelamin: z.string().min(1, { message: 'Pilih jenis kelamin Anda.' }),
     pekerjaan: z.string().min(1, { message: 'Pekerjaan wajib diisi!' }),
 })
 

@@ -10,7 +10,7 @@ import signOut from '@/server/actions/auth/handleSignOut'
 import { TbUser, TbLogout, TbLayoutDashboard, TbId, TbClock } from 'react-icons/tb'
 
 const _UserDropdown = () => {
-    // 🔑 SETUP STATE DATA AKUN MANDIRI BIAR REPLIKA PERSIS SAMA NAVBAR LANDING PAGE LU MEK!
+    // 🔑 Setup state data akun mandiri agar sesuai dengan navbar utama
     const [userData, setUserData] = useState({ name: 'User', role: 'user' })
 
     useEffect(() => {

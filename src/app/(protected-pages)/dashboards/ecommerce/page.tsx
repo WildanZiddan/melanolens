@@ -150,7 +150,7 @@ export default function AdminDashboardPage() {
                         {/* 📈 Grafik Filter Dinamis Waktu Aktif */}
                         <Overview data={adaptedStatisticData as any} />
                         
-                        {/* 🫁 DATA GENDER SEBARAN PASIEN AKTUAL DARI DB LU MEK! */}
+                        {/* 🫁 Data demografi gender pasien aktual dari database */}
                         <PatientGenderDemographic data={realData?.gender_demographic} />
                     </div>
                     <div className="flex flex-col gap-4 2xl:min-w-[360px]">

@@ -37,20 +37,20 @@ const medicalStatusColor: Record<number, { label: string; dotClass: string; text
     },
 }
 
-const ScanIdColumn = ({ row }: { row: OrderProps }) => {
+const ScanIdColumn = ({ index }: { index: number }) => {
     const router = useRouter()
 
     const handleView = useCallback(() => {
         // Arahkan ke berkas detil rekam medis admin
         router.push(`/dashboards/history`)
-    }, [row, router])
+    }, [router])
 
     return (
         <span
             className="cursor-pointer select-none font-bold text-primary hover:underline"
             onClick={handleView}
         >
-            #{row.id}
+            {index + 1}
         </span>
     )
 }
@@ -61,9 +61,8 @@ const RecentOrder = ({ data = [] }: RecentOrderProps) => {
     const columns: ColumnDef<OrderProps>[] = useMemo(
         () => [
             {
-                accessorKey: 'id',
-                header: 'ID Scan', // ⬅️ Ganti dari 'Order'
-                cell: (props) => <ScanIdColumn row={props.row.original} />,
+                header: 'No.',
+                cell: (props) => <ScanIdColumn index={props.row.index} />,
             },
             {
                 header: 'Nama Pasien', // ⬅️ Ganti dari 'Customer'
@@ -129,30 +128,32 @@ const RecentOrder = ({ data = [] }: RecentOrderProps) => {
                     Lihat Semua Berkas
                 </Button>
             </div>
-            <Table>
-                <THead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <Tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <Th key={header.id} colSpan={header.colSpan}>
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                </Th>
-                            ))}
-                        </Tr>
-                    ))}
-                </THead>
-                <TBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <Tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <Td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </Td>
-                            ))}
-                        </Tr>
-                    ))}
-                </TBody>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table>
+                    <THead>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <Tr key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <Th key={header.id} colSpan={header.colSpan}>
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </Th>
+                                ))}
+                            </Tr>
+                        ))}
+                    </THead>
+                    <TBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <Tr key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <Td key={cell.id}>
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </Td>
+                                ))}
+                            </Tr>
+                        ))}
+                    </TBody>
+                </Table>
+            </div>
         </Card>
     )
 }

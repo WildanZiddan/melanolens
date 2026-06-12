@@ -77,7 +77,7 @@ const ProfileCard = ({ isOpen, onClose, userData }: ProfileCardProps) => {
                         </span>
                     </div>
 
-                    {/* 📋 INFORMASI DETAIL SESUAI ERD LU, MEK! */}
+                    {/* 📋 INFORMASI DETAIL SESUAI ERD */}
                     <div className="w-full bg-slate-50 dark:bg-slate-700/30 rounded-xl p-4 text-left text-xs space-y-3 border border-slate-100 dark:border-slate-700/60 mb-6">
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-slate-400 flex items-center gap-1">

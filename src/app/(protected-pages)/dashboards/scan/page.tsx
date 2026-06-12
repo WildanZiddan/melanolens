@@ -65,8 +65,8 @@ export default function AdminScanPage() {
 
         if (file.size > maxSizeBytes) {
             toast.push(
-                <Notification title="File Kebesaran!" type="danger">
-                    Batas maksimal file gambar adalah 5 MB. Silakan kompres foto dulu!
+                <Notification title="Ukuran Berkas Terlalu Besar" type="danger">
+                    Batas maksimum ukuran gambar adalah 5 MB. Silakan kompres foto Anda terlebih dahulu.
                 </Notification>
             )
             if (fileInputRef.current) fileInputRef.current.value = ''
@@ -88,7 +88,7 @@ export default function AdminScanPage() {
         if (!targetUserId) {
             toast.push(
                 <Notification title="Sesi Login Habis" type="danger">
-                    ID Pengguna tidak terbaca. Silakan logout terus login ulang, Mek!
+                    ID Pengguna tidak terdeteksi. Silakan keluar dan masuk kembali.
                 </Notification>
             )
             return

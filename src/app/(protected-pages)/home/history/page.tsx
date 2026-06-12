@@ -117,7 +117,7 @@ export default function HistoryPage() {
                 </Card>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {historyData.map((item) => {
+                    {historyData.map((item, index) => {
                         const isMalignant = item.scan_respon.toLowerCase().includes('melanoma') || item.scan_respon.toLowerCase().includes('ganas')
                         return (
                             <Card key={item.scan_id} className="hover:shadow-md transition-shadow duration-200 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
@@ -128,7 +128,7 @@ export default function HistoryPage() {
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200">ID Scan #{item.scan_id}</span>
+                                                <span className="font-bold text-sm text-slate-700 dark:text-slate-200">Pemeriksaan No. {index + 1}</span>
                                                 <Tag className={isMalignant ? 'bg-red-50 text-red-600 border-red-100' : 'bg-emerald-50 text-emerald-600 border-emerald-100'}>
                                                     {isMalignant ? 'Indikasi Ganas' : 'Jinak'}
                                                 </Tag>
