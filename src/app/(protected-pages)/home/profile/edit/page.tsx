@@ -10,6 +10,7 @@ import { FormItem, Form } from '@/components/ui/Form'
 import Select from '@/components/ui/Select' // Pastiin template lu ada component ini, kalo ga ada nanti pake select bawaan HTML
 import { TbArrowLeft, TbUser, TbDeviceFloppy, TbLock, TbCalendar, TbGenderTransgender, TbBriefcase } from 'react-icons/tb'
 import Link from 'next/link'
+import appConfig from '@/configs/app.config'
 
 // 🧠 Validasi schema diperketat sesuai ERD mel_msuser
 const profileValidationSchema = z.object({
@@ -71,7 +72,7 @@ export default function EditProfilePage() {
 
         try {
             // 🚀 NEMBAK KE FASTAPI LU DENGAN PAYLOAD VALID
-            const res = await fetch("http://127.0.0.1:8000/api/auth/update-profile", {
+            const res = await fetch(`${appConfig.backendApiUrl}/api/auth/update-profile`, {
                 method: "PUT",
                 headers: { 
                     "Content-Type": "application/json",

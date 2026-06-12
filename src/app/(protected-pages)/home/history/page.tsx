@@ -8,8 +8,9 @@ import Dialog from '@/components/ui/Dialog'
 import Tag from '@/components/ui/Tag'
 import Progress from '@/components/ui/Progress'
 import { TbArrowLeft, TbEye, TbCalendar, TbSearch, TbActivity } from 'react-icons/tb'
+import appConfig from '@/configs/app.config'
 
-const BACKEND_HISTORY_URL = 'http://localhost:8000/api/skrining/history'
+const BACKEND_HISTORY_URL = `${appConfig.backendApiUrl}/api/skrining/history`
 
 interface ScanHistoryItem {
     scan_id: number

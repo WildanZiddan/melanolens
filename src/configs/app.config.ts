@@ -4,6 +4,7 @@ export type AppConfig = {
     unAuthenticatedEntryPath: string
     locale: string
     activeNavTranslation: boolean
+    backendApiUrl: string
 }
 
 const appConfig: AppConfig = {
@@ -12,6 +13,7 @@ const appConfig: AppConfig = {
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
     activeNavTranslation: false,
+    backendApiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000',
 }
 
 export default appConfig

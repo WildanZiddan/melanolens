@@ -12,6 +12,7 @@ import { FormItem, Form } from '@/components/ui/Form'
 import { TbArrowLeft, TbUser, TbDeviceFloppy, TbLock, TbCalendar, TbGenderTransgender, TbBriefcase } from 'react-icons/tb'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
+import appConfig from '@/configs/app.config'
 
 const profileValidationSchema = z.object({
     nama: z.string().min(3, { message: 'Nama lengkap minimal harus 3 karakter, Mek!' }),
@@ -65,7 +66,7 @@ export default function AdminProfilePage() {
         const currentEmail = localStorage.getItem('email') || values.email
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/auth/update-profile", {
+            const res = await fetch(`${appConfig.backendApiUrl}/api/auth/update-profile`, {
                 method: "PUT",
                 headers: { 
                     "Content-Type": "application/json",

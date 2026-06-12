@@ -8,9 +8,10 @@ import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import Progress from '@/components/ui/Progress'
 import { TbCloudUpload, TbAlertTriangle, TbActivity, TbFileCheck, TbArrowLeft } from 'react-icons/tb'
+import appConfig from '@/configs/app.config'
 
 // 🌐 URL Endpoint API Transaksi Backend Python FastAPI Lu, Dan!
-const BACKEND_AI_URL = 'http://localhost:8000/api/skrining/save-scan'
+const BACKEND_AI_URL = `${appConfig.backendApiUrl}/api/skrining/save-scan`
 
 interface ScanResponse {
     status: string

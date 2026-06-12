@@ -7,8 +7,9 @@ import RecentOrder from './_components/RecentOrder'
 import SalesTarget from './_components/SalesTarget'
 import TopProduct from './_components/TopProduct'
 import RevenueByChannel from './_components/RevenueByChannel'
+import appConfig from '@/configs/app.config'
 
-const DASHBOARD_STATS_URL = 'http://localhost:8000/api/admin/dashboard-stats'
+const DASHBOARD_STATS_URL = `${appConfig.backendApiUrl}/api/admin/dashboard-stats`
 
 export default function AdminDashboardPage() {
     const [realData, setRealData] = useState<any>(null)

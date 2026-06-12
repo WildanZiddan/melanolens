@@ -3,6 +3,7 @@
 
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import appConfig from "@/configs/app.config";
 
 export const authOptions = {
   providers: [
@@ -15,7 +16,7 @@ export const authOptions = {
       async authorize(credentials) {
         try {
           // 🔥 Nembak ke Backend FastAPI lu yang lagi jalan di port 8000
-          const res = await fetch("http://127.0.0.1:8000/api/auth/login", {
+          const res = await fetch(`${appConfig.backendApiUrl}/api/auth/login`, {
             method: "POST",
             body: JSON.stringify({
               email: credentials?.email,

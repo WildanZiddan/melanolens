@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
+import appConfig from '@/configs/app.config'
 
 export type OnSignInPayload = {
     values: SignInFormSchema
@@ -71,7 +72,7 @@ const SignInForm = (props: SignInFormProps) => {
 
         try {
             // 🚀 1. TEMBAK REAL-TIME KE FASTAPI BACKEND
-            const res = await fetch("http://127.0.0.1:8000/api/auth/login", {
+            const res = await fetch(`${appConfig.backendApiUrl}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

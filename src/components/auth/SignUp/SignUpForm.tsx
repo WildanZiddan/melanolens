@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
+import appConfig from '@/configs/app.config'
 
 // 🔑 SINKRON PYTHON: Gunakan 'nama' untuk menggantikan 'userName'
 type SignUpFormSchema = {
@@ -130,7 +131,7 @@ const SignUpForm = (props: SignUpFormProps) => {
         setMessage('')
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/auth/register", {
+            const res = await fetch(`${appConfig.backendApiUrl}/api/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

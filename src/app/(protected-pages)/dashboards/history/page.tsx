@@ -10,8 +10,9 @@ import Progress from '@/components/ui/Progress'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import { TbEye, TbCalendar, TbSearch, TbActivity, TbUser, TbCertificate } from 'react-icons/tb'
+import appConfig from '@/configs/app.config'
 
-const ADMIN_HISTORY_URL = 'http://localhost:8000/api/admin/history'
+const ADMIN_HISTORY_URL = `${appConfig.backendApiUrl}/api/admin/history`
 
 interface AdminHistoryItem {
     scan_id: number
