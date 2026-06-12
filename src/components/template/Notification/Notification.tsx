@@ -101,7 +101,7 @@ const _Notification = ({ className }: { className?: string }) => {
     const notificationDropdownRef = useRef<DropdownRef>(null)
 
     const handleViewAllActivity = () => {
-        router.push('/concepts/account/activity-log')
+        router.push('/dashboards/ecommerce')
         if (notificationDropdownRef.current) {
             notificationDropdownRef.current.handleDropdownClose()
         }

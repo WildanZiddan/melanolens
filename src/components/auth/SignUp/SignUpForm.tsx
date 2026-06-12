@@ -16,6 +16,9 @@ type SignUpFormSchema = {
     email: string
     password: string
     confirmPassword: string
+    tanggal_lahir: string
+    jenis_kelamin: string
+    pekerjaan: string
 }
 
 export type OnSignUpPayload = {
@@ -29,6 +32,7 @@ export type OnSignUp = (payload: OnSignUpPayload) => void
 interface SignUpFormProps extends CommonProps {
     setMessage: (message: string) => void
     onSignUp?: OnSignUp
+    className?: string
 }
 
 // 🧠 Skema validasi Zod diperketat
@@ -53,10 +57,19 @@ const validationSchema = z.object({
             message: 'Harus mengandung huruf, angka, dan karakter spesial',
         }),
     confirmPassword: z.string().min(1, {
-        message: 'Konfirmasi password wajib diisi',
+        message: 'Konfirmasi kata sandi wajib diisi',
+    }),
+    tanggal_lahir: z.string().min(1, {
+        message: 'Tanggal lahir wajib diisi',
+    }),
+    jenis_kelamin: z.string().min(1, {
+        message: 'Jenis kelamin wajib diisi',
+    }),
+    pekerjaan: z.string().min(1, {
+        message: 'Pekerjaan wajib diisi',
     }),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: "Password tidak cocok, Dan!",
+    message: "Kata sandi tidak cocok!",
     path: ["confirmPassword"], 
 })
 
@@ -88,6 +101,9 @@ const SignUpForm = (props: SignUpFormProps) => {
             email: '',
             password: '',
             confirmPassword: '',
+            tanggal_lahir: '',
+            jenis_kelamin: '',
+            pekerjaan: '',
         },
     })
 
@@ -101,9 +117,9 @@ const SignUpForm = (props: SignUpFormProps) => {
         if (/\d/.test(password)) score++
         if (/[@$!%*#?&]/.test(password)) score++
 
-        if (score <= 2) return { label: 'Weak', color: 'text-red-500' }
-        if (score <= 4) return { label: 'Medium', color: 'text-yellow-500' }
-        return { label: 'Strong', color: 'text-green-500' }
+        if (score <= 2) return { label: 'Lemah', color: 'text-red-500' }
+        if (score <= 4) return { label: 'Menengah', color: 'text-yellow-500' }
+        return { label: 'Kuat', color: 'text-green-500' }
     }
 
     const passwordStrength = getPasswordStrength(passwordValue)
@@ -118,9 +134,12 @@ const SignUpForm = (props: SignUpFormProps) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    nama: values.nama,         // 🔑 Dikirim sebagai 'nama' ke RegisterInput python
-                    email: values.email,       // 🔑 Dikirim sebagai 'email'
-                    password: values.password, // 🔑 Dikirim sebagai 'password'
+                    nama: values.nama,
+                    email: values.email,   
+                    password: values.password,
+                    tanggal_lahir: values.tanggal_lahir,
+                    jenis_kelamin: values.jenis_kelamin,
+                    pekerjaan: values.pekerjaan,
                 }),
             })
 
@@ -128,7 +147,7 @@ const SignUpForm = (props: SignUpFormProps) => {
 
             if (res.ok) {
                 // Berhasil daftar! Infokan user terus lempar ke sign-in
-                alert("Akun berhasil didaftarkan! Silakan login, Dan. 🔥")
+                alert("Akun berhasil didaftarkan! Silakan masuk dengan akun Anda.")
                 window.location.href = '/sign-in'
             } else {
                 // Munculin error "Email sudah terdaftar" dari FastAPI HTTP 400
@@ -138,7 +157,7 @@ const SignUpForm = (props: SignUpFormProps) => {
 
         } catch (error) {
             console.error('Koneksi putus ke FastAPI:', error)
-            setMessage('Gagal terhubung ke server backend FastAPI!')
+            setMessage('Gagal terhubung ke server')
             setSubmitting(false)
         }
 
@@ -202,12 +221,87 @@ const SignUpForm = (props: SignUpFormProps) => {
                     />
                 </FormItem>
 
+                {/* 📅 FIELD BARU: Input Tanggal Lahir */}
+                <FormItem
+                    className="mb-3"
+                    label={
+                        renderLabel(
+                            'Tanggal Lahir',
+                            errors.tanggal_lahir?.message,
+                        ) as unknown as string
+                    }
+                    invalid={Boolean(errors.tanggal_lahir)}
+                >
+                    <Controller
+                        name="tanggal_lahir"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                type="date"
+                                {...field}
+                            />
+                        )}
+                    />
+                </FormItem>
+
+                {/* 🧬 FIELD BARU: Input Jenis Kelamin */}
+                <FormItem
+                    className="mb-3"
+                    label={
+                        renderLabel(
+                            'Jenis Kelamin',
+                            errors.jenis_kelamin?.message,
+                        ) as unknown as string
+                    }
+                    invalid={Boolean(errors.jenis_kelamin)}
+                >
+                    <Controller
+                        name="jenis_kelamin"
+                        control={control}
+                        render={({ field }) => (
+                            <select
+                                className="w-full h-11 border border-gray-300 dark:border-slate-600 rounded-xl px-3 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer text-slate-700 dark:text-slate-200"
+                                {...field}
+                            >
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        )}
+                    />
+                </FormItem>
+
+                {/* 💼 FIELD BARU: Input Pekerjaan */}
+                <FormItem
+                    className="mb-3"
+                    label={
+                        renderLabel(
+                            'Pekerjaan',
+                            errors.pekerjaan?.message,
+                        ) as unknown as string
+                    }
+                    invalid={Boolean(errors.pekerjaan)}
+                >
+                    <Controller
+                        name="pekerjaan"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                type="text"
+                                placeholder="Pekerjaan Anda (Contoh: Karyawan, Dokter, Mahasiswa)"
+                                autoComplete="off"
+                                {...field}
+                            />
+                        )}
+                    />
+                </FormItem>
+
                 {/* 🔒 Field Input Password */}
                 <FormItem
                     className="mb-3"
                     label={
                         renderLabel(
-                            'Password',
+                            'Kata sandi',
                             errors.password?.message,
                         ) as unknown as string
                     }
@@ -220,7 +314,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             <Input
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Password"
+                                placeholder="Kata sandi"
                                 {...field}
                             />
                         )}
@@ -228,7 +322,7 @@ const SignUpForm = (props: SignUpFormProps) => {
 
                     {passwordValue && (
                         <div className="mt-1 text-xs">
-                            <span className="font-semibold">Strength:</span>
+                            <span className="font-semibold">Kekuatan:</span>
                             <span className={`ml-1 ${passwordStrength.color}`}>
                                 {passwordStrength.label}
                             </span>
@@ -236,7 +330,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                     )}
 
                     <div className="mt-0.5 text-[11px] text-gray-500">
-                        Minimum 8 characters with letters, numbers, and special characters.
+                        Minimal 8 karakter dengan kombinasi huruf, angka, dan karakter spesial.
                     </div>
                 </FormItem>
 
@@ -245,7 +339,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                     className="mb-4"
                     label={
                         renderLabel(
-                            'Confirm Password',
+                            'Konfirmasi Kata Sandi',
                             errors.confirmPassword?.message,
                         ) as unknown as string
                     }
@@ -258,7 +352,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             <Input
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Confirm Password"
+                                placeholder="Konfirmasi Kata Sandi"
                                 {...field}
                             />
                         )}
@@ -271,7 +365,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+                    {isSubmitting ? 'Membuat Akun...' : 'Daftar'}
                 </Button>
             </Form>
         </div>

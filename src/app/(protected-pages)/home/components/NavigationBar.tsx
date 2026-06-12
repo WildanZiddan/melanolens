@@ -33,8 +33,8 @@ const navMenu = [
     },
     {
         title: 'Riwayat Scan',
-        value: 'history',
-        href: '/guide/documentation/introduction',
+        value: 'scan',
+        href: 'home/history',
     },
 ]
 

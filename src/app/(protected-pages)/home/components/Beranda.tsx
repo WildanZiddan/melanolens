@@ -310,8 +310,6 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                             transformOrigin:
                                                 'bottom right 10px',
                                         }}
-                                        href="https://ecme-next.themenate.net/guide/documentation/introduction"
-                                        target="_blank"
                                         className="absolute max-w-[330px] top-7 -right-12"
                                     >
                                         <div className="p-2 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-lg relative shadow-2xl dark:shadow-white/40">
@@ -346,39 +344,6 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                 </div>
                             </Card>
                         </div>
-                        <div className="mt-4">
-                            <Card
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: 0.6,
-                                    type: 'spring',
-                                    bounce: 0.1,
-                                }}
-                                viewport={{ once: true }}
-                            >
-                                <div
-                                    className="rounded-2xl bg-white dark:bg-slate-900 p-4 overflow-hidden relative"
-                                    style={cardStyles}
-                                >
-                                    <div className="min-h-[270px] flex items-center justify-center w-full">
-                                        <CardStack
-                                            className="absolute -bottom-6"
-                                            items={CARDS}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mt-6">
-                                    <h4 className="font-bold">
-                                        Dashboard Pemantauan Klinis
-                                    </h4>
-                                    <p className="mt-2">
-                                        Simpan riwayat penapisan citra dermoskopi pasien secara berkala, memudahkan tenaga medis memantau perkembangan struktur lesi jaringan kulit dari waktu ke waktu.
-                                    </p>
-                                </div>
-                            </Card>
-                        </div>
                     </div>
                     <div>
                         <Card
@@ -393,8 +358,8 @@ const Features = ({ mode, onModeChange, schema, setSchema }: FeaturesProps) => {
                                     className="flex-1 rounded-2xl bg-white dark:bg-slate-900 p-4 overflow-hidden relative"
                                     style={cardStyles}
                                 >
-                                    <div className="min-h-[270px] flex items-center justify-center w-full">
-                                        <div className="h-[38.5rem] rounded-md flex flex-col antialiased items-center justify-center relative overflow-hidden">
+                                    <div className="min-h-[200px] flex items-center justify-center w-full">
+                                        <div className="h-[200px] rounded-md flex flex-col antialiased items-center justify-center relative overflow-hidden">
                                             <div className="h-[38.5rem] grid grid-cols-2 gap-x-12">
                                                 <InfiniteMovingCards
                                                     items={componentItems1}

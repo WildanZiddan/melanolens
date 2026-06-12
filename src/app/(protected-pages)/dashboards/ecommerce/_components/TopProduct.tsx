@@ -1,72 +1,50 @@
 'use client'
 
-import Avatar from '@/components/ui/Avatar'
-import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import GrowShrinkValue from '@/components/shared/GrowShrinkValue'
 import classNames from '@/utils/classNames'
 import isLastChild from '@/utils/isLastChild'
-import { useRouter } from 'next/navigation'
-import type { Product } from '../types'
+import { TbActivity } from 'react-icons/tb'
 
 type TopProductProps = {
-    data: Product[]
+    data: any[]
 }
 
-const TopProduct = ({ data }: TopProductProps) => {
-    const router = useRouter()
-
-    const handleViewAll = () => {
-        router.push('/concepts/products/product-list')
-    }
-
+export default function TopProduct({ data = [] }: TopProductProps) {
     return (
         <Card>
-            <div className="flex items-center justify-between">
-                <h4>Top product</h4>
-                <Button size="sm" onClick={handleViewAll}>
-                    View all
-                </Button>
+            <div>
+                <h4>Karakteristik Temuan Kasus</h4>
+                <p className="text-xs text-slate-400">Peringkat sebaran diagnosis terbanyak dari cloud Supabase.</p>
             </div>
-            <div className="mt-5">
-                {data.map((product, index) => (
+            <div className="mt-5 space-y-3">
+                {data.map((item, index) => (
                     <div
-                        key={product.id}
+                        key={item.id}
                         className={classNames(
-                            'flex items-center justify-between py-2 dark:border-gray-600',
-                            !isLastChild(data, index) && 'mb-2',
+                            'flex items-center justify-between py-2 border-b border-slate-50 dark:border-gray-800/60',
+                            isLastChild(data, index) && 'border-none'
                         )}
                     >
-                        <div className="flex items-center gap-2">
-                            <Avatar
-                                className="bg-white"
-                                size={50}
-                                src={product.img}
-                                shape="round"
-                            />
+                        <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-xl text-primary">
+                                <TbActivity />
+                            </div>
                             <div>
-                                <div className="heading-text font-bold">
-                                    {product.name}
-                                </div>
-                                <div>Sold: {product.sales}</div>
+                                <div className="heading-text font-bold text-xs">{item.name}</div>
+                                <div className="text-[11px] text-slate-400">Ditemukan: <strong>{item.sales} Berkas</strong></div>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <GrowShrinkValue
-                                className="rounded-lg py-0.5 px-2 font-bold"
-                                value={product.growShrink}
-                                positiveClass="bg-success-subtle"
-                                negativeClass="bg-error-subtle"
-                                suffix="%"
-                                positiveIcon="+"
-                                negativeIcon=""
-                            />
-                        </div>
+                        <GrowShrinkValue
+                            className="rounded-lg py-0.5 px-2 text-xs font-bold"
+                            value={item.growShrink}
+                            positiveClass="bg-success-subtle"
+                            negativeClass="bg-error-subtle"
+                            suffix="%"
+                        />
                     </div>
                 ))}
             </div>
         </Card>
     )
 }
-
-export default TopProduct

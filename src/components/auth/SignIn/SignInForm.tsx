@@ -37,14 +37,14 @@ const validationSchema = z.object({
     email: z
         .string()
         .min(1, {
-            message: 'Please enter your email',
+            message: 'Masukkan email anda',
         })
         .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
-            message: 'Please enter a valid email',
+            message: 'Masukkan email yang valid',
         }),
 
     password: z.string().min(1, {
-        message: 'Please enter your password',
+        message: 'Masukkan kata sandi anda',
     }),
 })
 
@@ -175,7 +175,7 @@ const SignInForm = (props: SignInFormProps) => {
                         (
                             <div className="flex items-center gap-2">
                                 <span className="flex items-center">
-                                    <span>Password</span>
+                                    <span>Kata sandi</span>
                                     <span className="text-red-500 ml-1">*</span>
                                 </span>
 
@@ -195,7 +195,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <PasswordInput
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Kata sandi"
                                 autoComplete="off"
                                 {...field}
                             />
@@ -211,7 +211,7 @@ const SignInForm = (props: SignInFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
+                    {isSubmitting ? 'Sedang proses...' : 'Masuk'}
                 </Button>
             </Form>
         </div>

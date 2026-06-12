@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "rm -rf src/app/\\(protected-pages\\)/guide src/app/\\(protected-pages\\)/ui-components && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prettier": "npx prettier src --check",

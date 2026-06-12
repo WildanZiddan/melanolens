@@ -3,10 +3,8 @@
 import HeroContent from './HeroContent'
 import NavigationBar from './NavigationBar'
 import Beranda from './Beranda'
-import Demos from './Demos'
 import Panduan from './Panduan'
 import Faq from './Faq'
-import Components from './Components'
 import LandingFooter from './LandingFooter'
 import useTheme from '@/utils/hooks/useTheme'
 import { MODE_DARK, MODE_LIGHT } from '@/constants/theme.constant'
@@ -40,10 +38,7 @@ const Landing = () => {
                 onModeChange={(value) => setMode(value ? 'dark' : 'light')}
             />
             <Panduan mode={mode} />
-            {/* <Demos mode={mode} /> */}
-            {/* <TechStack /> */}
             <Faq mode={mode} />
-            {/* <Components /> */}
             <LandingFooter mode={mode} />
         </main>
     )

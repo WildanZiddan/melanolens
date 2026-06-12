@@ -1,76 +1,37 @@
 'use client'
 
-import { useState } from 'react'
 import Card from '@/components/ui/Card'
 import Progress from '@/components/ui/Progress'
-import Select from '@/components/ui/Select'
-import AbbreviateNumber from '@/components/shared/AbbreviateNumber'
-import { options } from '../constants'
-import type { SalesTargetData, Period } from '../types'
 
 type SalesTargetProps = {
-    data: SalesTargetData
+    data: { thisMonth: number }
 }
 
-const periodLabel: Record<Period, string> = {
-    thisMonth: 'month',
-    thisWeek: 'week',
-    thisYear: 'year',
-}
-
-const SalesTarget = ({ data }: SalesTargetProps) => {
-    const [selectedPeriod, setSelectedPeriod] = useState<Period>('thisMonth')
-
+export default function SalesTarget({ data }: SalesTargetProps) {
+    const confidenceRate = data?.thisMonth || 0
     return (
         <Card>
-            <div className="flex items-center justify-between mb-4">
-                <h4>Sales target</h4>
-                <Select
-                    instanceId="sales-tartget-period"
-                    className="w-[120px]"
-                    size="sm"
-                    placeholder="Select period"
-                    value={options.filter(
-                        (option) => option.value === selectedPeriod,
-                    )}
-                    options={options}
-                    isSearchable={false}
-                    onChange={(option) => {
-                        if (option?.value) {
-                            setSelectedPeriod(option?.value)
-                        }
-                    }}
-                />
+            <div className="mb-2">
+                <h4>Keandalan Model AI</h4>
+                <p className="text-xs text-slate-400">Rata-rata tingkat akurasi konfiden klasifikasi lesi kulit.</p>
             </div>
-            <div className="flex items-center justify-between mt-8">
-                <div className="flex flex-col">
-                    <h2>
-                        <AbbreviateNumber
-                            value={data[selectedPeriod].achieved}
-                        />
-                        <span className="opacity-60 text-base font-bold">
-                            {' / '}
-                            <AbbreviateNumber
-                                value={data[selectedPeriod].target}
-                            />{' '}
-                            Units
-                        </span>
-                    </h2>
-                    <div className="mt-1">
-                        Made this {periodLabel[selectedPeriod]} year
+            <div className="flex items-center justify-between mt-6">
+                <div>
+                    <h2 className="font-extrabold heading-text text-primary">{confidenceRate}%</h2>
+                    <div className="mt-1 text-xs text-slate-400 font-semibold">
+                        {confidenceRate >= 80 ? '🟢 Sistem Optimal & Stabil' : '🟡 Butuh Retraining Data'}
                     </div>
                 </div>
                 <div>
                     <Progress
-                        percent={data[selectedPeriod].percentage}
+                        percent={Math.round(confidenceRate)}
                         width={80}
                         variant="circle"
                         strokeWidth={8}
+                        customColorClass="text-primary"
                     />
                 </div>
             </div>
         </Card>
     )
 }
-
-export default SalesTarget

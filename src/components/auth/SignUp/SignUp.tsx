@@ -29,9 +29,9 @@ export const SignUp = ({ onSignUp, signInUrl = '/sign-in' }: SignUpProps) => {
                 />
             </div>
             <div className="mb-6">
-                <h2 className="mb-2">Sign Up</h2>
+                <h2 className="mb-2">Daftar</h2>
                 <p className="font-semibold heading-text">
-                    Create your account and start using Melanolens
+                    Buat akun Anda dan mulai menggunakan Melanolens
                 </p>
             </div>
             {message && (
@@ -42,13 +42,13 @@ export const SignUp = ({ onSignUp, signInUrl = '/sign-in' }: SignUpProps) => {
             <SignUpForm onSignUp={onSignUp} setMessage={setMessage} />
             <div>
                 <div className="mt-6 text-center">
-                    <span>Already have an account? </span>
+                    <span>Sudah memiliki akun? </span>
                     <ActionLink
                         href={signInUrl}
                         className="heading-text font-bold"
                         themeColor={false}
                     >
-                        Sign in
+                        Silahkan masuk
                     </ActionLink>
                 </div>
             </div>

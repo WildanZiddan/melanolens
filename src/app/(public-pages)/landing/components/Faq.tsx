@@ -197,43 +197,6 @@ const Faq = ({ mode }: DemoProps) => {
                             </div>
                         </div>
                     </motion.div>
-                    <motion.div className="bg-gray-100 dark:bg-slate-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10">
-                        <div className="grid lg:grid-cols-2 gap-8 lg:gap-4">
-                            <div>
-                                <h3 className="text-4xl">Aksesibilitas & Keamanan Akun</h3>
-                                <p className="mt-6 max-w-[550px] text-lg">
-                                    Penjelasan mengenai cara mengelola riwayat penapisan, hak akses perangkat, serta jaminan perlindungan privasi data rekam medis pada dashboard pasien.
-                                </p>
-                                <div className="mt-12 flex flex-col gap-4">
-                                    <PointList>
-                                        <strong>Q: Apakah data gambar saya dijamin rahasia?</strong> Ya, seluruh citra lesi kulit yang diunggah diproses secara aman menggunakan protokol enkripsi end-to-end dan hanya dapat diakses oleh pemilik akun melalui dashboard pribadi.
-                                    </PointList>
-                                    <PointList>
-                                        <strong>Q: Bagaimana cara melihat riwayat skrining sebelumnya?</strong> Setiap hasil analisis akan otomatis tersimpan dalam modul rekam medis digital. Lu bisa memantau tren perkembangan lesi kapan saja secara berkala.
-                                    </PointList>
-                                    <PointList>
-                                        <strong>Q: Apakah platform ini memerlukan perangkat khusus?</strong> Tidak. MelanoLens berbasis web responsif, jadi bisa diakses dengan lancar lewat browser smartphone, tablet, maupun laptop tanpa perlu install aplikasi tambahan.
-                                    </PointList>
-                                </div>
-                            </div>
-                            <div className="relative flex justify-center">
-                                <motion.div
-                                    whileHover={{ y: -20 }}
-                                    className="relative flex justify-center w-full"
-                                >
-                                    <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-700 rounded-[32px] max-w-[550px] lg:absolute ">
-                                        <div className="absolute inset-x-0 bottom-0 h-20 w-full bg-gradient-to-b from-transparent via-gray-100 to-gray-100 dark:via-slate-800/50 dark:to-slate-800 scale-[1.1] pointer-events-none" />
-                                        <div className="bg-white dark:border-slate-700 border border-gray-200 rounded-[24px] overflow-hidden p-2">
-                                            <img
-                                                src="/img/landing/features/rtl.png"
-                                                alt="App screenshot"
-                                            />
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </div>
-                        </div>
-                    </motion.div>
                 </div>
             </Container>
         </div>
