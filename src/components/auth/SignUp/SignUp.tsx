@@ -48,7 +48,7 @@ export const SignUp = ({ onSignUp, signInUrl = '/sign-in' }: SignUpProps) => {
                         className="heading-text font-bold"
                         themeColor={false}
                     >
-                        Silahkan masuk
+                        Silakan masuk
                     </ActionLink>
                 </div>
             </div>

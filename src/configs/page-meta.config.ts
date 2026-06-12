@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
 
 const pageMeta: Metadata = {
-    title: 'Ecme - The Ultimate Next & TypeScript Web Template',
+    title: 'Melanolens',
     description:
-        'Admin Template and Starter Kit with React, Tailwind Components and Next.js',
+        'Melanoma detection web application',
     icons: {
         icon: '/favicon.ico',
     },

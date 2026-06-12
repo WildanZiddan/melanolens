@@ -11,7 +11,6 @@ import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
 import appConfig from '@/configs/app.config'
 
-// 🔑 SINKRON PYTHON: Gunakan 'nama' untuk menggantikan 'userName'
 type SignUpFormSchema = {
     nama: string
     email: string
@@ -36,7 +35,6 @@ interface SignUpFormProps extends CommonProps {
     className?: string
 }
 
-// 🧠 Skema validasi Zod diperketat
 const validationSchema = z.object({
     nama: z.string().min(1, {
         message: 'Silakan masukkan nama lengkap Anda',
@@ -71,7 +69,7 @@ const validationSchema = z.object({
     }),
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Kata sandi tidak cocok!",
-    path: ["confirmPassword"], 
+    path: ["confirmPassword"],
 })
 
 const renderLabel = (title: string, error?: string): ReactNode => {
@@ -95,6 +93,7 @@ const SignUpForm = (props: SignUpFormProps) => {
         formState: { errors },
         control,
         watch,
+        trigger,
     } = useForm<SignUpFormSchema>({
         resolver: zodResolver(validationSchema),
         defaultValues: {
@@ -108,7 +107,26 @@ const SignUpForm = (props: SignUpFormProps) => {
         },
     })
 
+    const [currentStep, setCurrentStep] = useState<number>(1)
+    const totalSteps = 2
+
     const passwordValue = watch('password') || ''
+
+    const goNextStep = async () => {
+        const currentFields =
+            currentStep === 1
+                ? ['nama', 'pekerjaan', 'tanggal_lahir', 'jenis_kelamin']
+                : ['email', 'password', 'confirmPassword']
+
+        const isValid = await trigger(currentFields as any)
+        if (isValid) {
+            setCurrentStep((prev) => Math.min(prev + 1, totalSteps))
+        }
+    }
+
+    const goBackStep = () => {
+        setCurrentStep((prev) => Math.max(prev - 1, 1))
+    }
 
     const getPasswordStrength = (password: string) => {
         let score = 0
@@ -125,7 +143,6 @@ const SignUpForm = (props: SignUpFormProps) => {
 
     const passwordStrength = getPasswordStrength(passwordValue)
 
-    // 🚀 ACTION REGISTER REAL-TIME KE FASTAPI BACKEND
     const handleSignUp = async (values: SignUpFormSchema) => {
         setSubmitting(true)
         setMessage('')
@@ -136,7 +153,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     nama: values.nama,
-                    email: values.email,   
+                    email: values.email,
                     password: values.password,
                     tanggal_lahir: values.tanggal_lahir,
                     jenis_kelamin: values.jenis_kelamin,
@@ -147,11 +164,9 @@ const SignUpForm = (props: SignUpFormProps) => {
             const data = await res.json()
 
             if (res.ok) {
-                // Berhasil daftar! Infokan user terus lempar ke sign-in
                 alert("Akun berhasil didaftarkan! Silakan masuk dengan akun Anda.")
-                window.location.href = '/sign-in'
+                globalThis.location.href = '/sign-in'
             } else {
-                // Munculin error "Email sudah terdaftar" dari FastAPI HTTP 400
                 setMessage(data.detail || 'Gagal mendaftarkan akun baru.')
                 setSubmitting(false)
             }
@@ -162,7 +177,6 @@ const SignUpForm = (props: SignUpFormProps) => {
             setSubmitting(false)
         }
 
-        // Jalankan trigger callback template bawaan jika ada
         if (onSignUp) {
             onSignUp({ values, setSubmitting, setMessage })
         }
@@ -171,203 +185,237 @@ const SignUpForm = (props: SignUpFormProps) => {
     return (
         <div className={className}>
             <Form onSubmit={handleSubmit(handleSignUp)}>
-
-                {/* 👤 FIELD BARU: Input Nama Lengkap (Sesuai Syarat Python) */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Nama Lengkap',
-                            errors.nama?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.nama)}
-                >
-                    <Controller
-                        name="nama"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                placeholder="Nama Lengkap Anda"
-                                autoComplete="off"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-
-                {/* 📧 Field Input Email */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Email',
-                            errors.email?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.email)}
-                >
-                    <Controller
-                        name="email"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="email"
-                                placeholder="Email"
-                                autoComplete="off"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-
-                {/* 📅 FIELD BARU: Input Tanggal Lahir */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Tanggal Lahir',
-                            errors.tanggal_lahir?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.tanggal_lahir)}
-                >
-                    <Controller
-                        name="tanggal_lahir"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="date"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-
-                {/* 🧬 FIELD BARU: Input Jenis Kelamin */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Jenis Kelamin',
-                            errors.jenis_kelamin?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.jenis_kelamin)}
-                >
-                    <Controller
-                        name="jenis_kelamin"
-                        control={control}
-                        render={({ field }) => (
-                            <select
-                                className="w-full h-11 border border-gray-300 dark:border-slate-600 rounded-xl px-3 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer text-slate-700 dark:text-slate-200"
-                                {...field}
-                            >
-                                <option value="">-- Pilih Jenis Kelamin --</option>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
-                            </select>
-                        )}
-                    />
-                </FormItem>
-
-                {/* 💼 FIELD BARU: Input Pekerjaan */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Pekerjaan',
-                            errors.pekerjaan?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.pekerjaan)}
-                >
-                    <Controller
-                        name="pekerjaan"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                placeholder="Pekerjaan Anda (Contoh: Karyawan, Dokter, Mahasiswa)"
-                                autoComplete="off"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-
-                {/* 🔒 Field Input Password */}
-                <FormItem
-                    className="mb-3"
-                    label={
-                        renderLabel(
-                            'Kata sandi',
-                            errors.password?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.password)}
-                >
-                    <Controller
-                        name="password"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Kata sandi"
-                                {...field}
-                            />
-                        )}
-                    />
-
-                    {passwordValue && (
-                        <div className="mt-1 text-xs">
-                            <span className="font-semibold">Kekuatan:</span>
-                            <span className={`ml-1 ${passwordStrength.color}`}>
-                                {passwordStrength.label}
-                            </span>
+                <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className={`rounded-full px-3 py-1 text-xs font-semibold ${currentStep === 1 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                            1. Informasi Dasar
                         </div>
-                    )}
-
-                    <div className="mt-0.5 text-[11px] text-gray-500">
-                        Minimal 8 karakter dengan kombinasi huruf, angka, dan karakter spesial.
+                        <div className={`rounded-full px-3 py-1 text-xs font-semibold ${currentStep === 2 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                            2. Akun
+                        </div>
                     </div>
-                </FormItem>
+                    <div className="text-sm text-slate-500">Langkah {currentStep} dari {totalSteps}</div>
+                </div>
 
-                {/* 🔒 Field Input Confirm Password */}
-                <FormItem
-                    className="mb-4"
-                    label={
-                        renderLabel(
-                            'Konfirmasi Kata Sandi',
-                            errors.confirmPassword?.message,
-                        ) as unknown as string
-                    }
-                    invalid={Boolean(errors.confirmPassword)}
-                >
-                    <Controller
-                        name="confirmPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Konfirmasi Kata Sandi"
-                                {...field}
+                {currentStep === 1 && (
+                    <div className="flex flex-col gap-3">
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Nama Lengkap',
+                                    errors.nama?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.nama)}
+                        >
+                            <Controller
+                                name="nama"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="text"
+                                        placeholder="Nama Lengkap Anda"
+                                        autoComplete="off"
+                                        {...field}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                </FormItem>
+                        </FormItem>
 
-                <Button
-                    block
-                    loading={isSubmitting}
-                    variant="solid"
-                    type="submit"
-                >
-                    {isSubmitting ? 'Membuat Akun...' : 'Daftar'}
-                </Button>
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Tanggal Lahir',
+                                    errors.tanggal_lahir?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.tanggal_lahir)}
+                        >
+                            <Controller
+                                name="tanggal_lahir"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="date"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </FormItem>
+
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Jenis Kelamin',
+                                    errors.jenis_kelamin?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.jenis_kelamin)}
+                        >
+                            <Controller
+                                name="jenis_kelamin"
+                                control={control}
+                                render={({ field }) => (
+                                    <select
+                                        className="w-full h-11 border border-gray-300 dark:border-slate-600 rounded-xl px-3 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer text-slate-700 dark:text-slate-200"
+                                        {...field}
+                                    >
+                                        <option value="">-- Pilih Jenis Kelamin --</option>
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                )}
+                            />
+                        </FormItem>
+
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Pekerjaan',
+                                    errors.pekerjaan?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.pekerjaan)}
+                        >
+                            <Controller
+                                name="pekerjaan"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="text"
+                                        placeholder="Pekerjaan Anda (Contoh: Karyawan, Dokter, Mahasiswa)"
+                                        autoComplete="off"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </FormItem>
+                    </div>
+                )}
+
+                {currentStep === 2 && (
+                    <div className="flex flex-col gap-3">
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Email',
+                                    errors.email?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.email)}
+                        >
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="email"
+                                        placeholder="Email"
+                                        autoComplete="off"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </FormItem>
+
+                        <FormItem
+                            className="mb-3"
+                            label={
+                                renderLabel(
+                                    'Kata sandi',
+                                    errors.password?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.password)}
+                        >
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="password"
+                                        autoComplete="off"
+                                        placeholder="Kata sandi"
+                                        {...field}
+                                    />
+                                )}
+                            />
+
+                            {passwordValue && (
+                                <div className="mt-1 text-xs">
+                                    <span className="font-semibold">Kekuatan:</span>
+                                    <span className={`ml-1 ${passwordStrength.color}`}>
+                                        {passwordStrength.label}
+                                    </span>
+                                </div>
+                            )}
+
+                            <div className="mt-0.5 text-[11px] text-gray-500">
+                                Minimal 8 karakter dengan kombinasi huruf, angka, dan karakter spesial.
+                            </div>
+                        </FormItem>
+
+                        <FormItem
+                            className="mb-4 md:col-span-2"
+                            label={
+                                renderLabel(
+                                    'Konfirmasi Kata Sandi',
+                                    errors.confirmPassword?.message,
+                                ) as unknown as string
+                            }
+                            invalid={Boolean(errors.confirmPassword)}
+                        >
+                            <Controller
+                                name="confirmPassword"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="password"
+                                        autoComplete="off"
+                                        placeholder="Konfirmasi Kata Sandi"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </FormItem>
+                    </div>
+                )}
+
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    {currentStep > 1 ? (
+                        <Button
+                            variant="plain"
+                            type="button"
+                            onClick={goBackStep}
+                        >
+                            Sebelumnya
+                        </Button>
+                    ) : <div />}
+
+                    {currentStep < totalSteps ? (
+                        <Button
+                            variant="solid"
+                            type="button"
+                            onClick={goNextStep}
+                        >
+                            Selanjutnya
+                        </Button>
+                    ) : (
+                        <Button
+                            block
+                            loading={isSubmitting}
+                            variant="solid"
+                            type="submit"
+                        >
+                            {isSubmitting ? 'Membuat Akun...' : 'Daftar'}
+                        </Button>
+                    )}
+                </div>
             </Form>
         </div>
     )
