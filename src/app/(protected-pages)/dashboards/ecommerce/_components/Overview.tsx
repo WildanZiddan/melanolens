@@ -91,14 +91,14 @@ export default function Overview({ data }: { data: any }) {
 
     return (
         <Card>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
                     <h4>Grafik Tren Aktivitas Skrining</h4>
                     <p className="text-xs text-slate-400">Monitoring lonjakan upload sampel foto kulit jaringan melanoma secara berkala.</p>
                 </div>
                 <Select
                     instanceId="overview-period"
-                    className="w-[140px] text-xs font-bold"
+                    className="w-[140px] text-xs font-bold shrink-0"
                     size="sm"
                     value={options.filter((opt) => opt.value === selectedPeriod)}
                     options={options}
