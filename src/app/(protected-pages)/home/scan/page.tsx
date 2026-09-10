@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation' // 👈 Impor router buat fungsi tombol back
+import { useRouter } from 'next/navigation'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
@@ -10,28 +10,33 @@ import Progress from '@/components/ui/Progress'
 import { TbCloudUpload, TbAlertTriangle, TbActivity, TbFileCheck, TbArrowLeft } from 'react-icons/tb'
 import appConfig from '@/configs/app.config'
 
-// 🌐 URL Endpoint API Transaksi Backend Python FastAPI Lu, Dan!
-const BACKEND_AI_URL = `${appConfig.backendApiUrl}/api/skrining/save-scan`
+// 🌐 URL Endpoint Real AI Backend FastAPI (ViT Model)
+const BACKEND_AI_URL = `${appConfig.backendApiUrl}/api/skrining/predict`
 
-interface ScanResponse {
-    status: string
-    message: string
+interface AIResult {
+    label: string
+    english_label: string
+    confidence: number
+    prob_benign: number
+    prob_malignant: number
+    risk_level: string
+    color: string
+    recommendation: string
+    heatmap_base64?: string
     scan_id?: number
-    scan_respon?: string      // 👈 Tambahkan baris ini, Dan!
-    scan_persentase?: number  // 👈 Tambahkan baris ini juga!
 }
 
 export default function ScanPage() {
-    const router = useRouter() // 👈 Inisialisasi fungsi navigasi
+    const router = useRouter()
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [result, setResult] = useState<{ class: string; confidence: number } | null>(null)
+    const [result, setResult] = useState<AIResult | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [userId, setUserId] = useState<number | string | null>(null)
 
-    // Decode token dari localStorage secara aman untuk mendapatkan user_id
+    // Decode token dari localStorage untuk mendapatkan user_id
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
         if (token) {
@@ -47,14 +52,12 @@ export default function ScanPage() {
                 const decoded = JSON.parse(jsonPayload)
                 const extractedUserId = decoded?.user_id || decoded?.id || null
                 setUserId(extractedUserId)
-                console.log("🕵️‍♂️ ID User Berhasil Dibongkar:", extractedUserId)
             } catch (e) {
                 console.error("Gagal parsing token JWT:", e)
             }
         }
     }, [])
 
-    // 🕵️‍♂️ Saringan ketat ukuran file gambar maksimal 5 MB
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (!file) return
@@ -73,54 +76,18 @@ export default function ScanPage() {
 
         setSelectedFile(file)
         setPreviewUrl(URL.createObjectURL(file))
-        setResult(null) // Bersihkan hasil diagnosis lama
+        setResult(null)
     }
 
     const handleUploadAndPredict = async () => {
         if (!selectedFile) return
 
-        // 🔑 KUNCI SAKTI 1: Ambil ID murni dari state
-        const realUserId = userId
-
-        // 🔑 KUNCI SAKTI 2: Blokir total kalau user_id beneran ga kebaca dari session login!
-        if (!realUserId) {
-            toast.push(
-                <Notification title="Sesi Login Habis" type="danger">
-                    ID Pengguna tidak terdeteksi. Silakan keluar dan masuk kembali.
-                </Notification>
-            )
-            return
-        }
-
         setIsLoading(true)
-        
-        // Menentukan tingkat risiko secara acak untuk diselaraskan dengan warna & persentase
-        const rand = Math.random()
-        let randomPercent = 0
-        let randomRespon = ''
-
-        if (rand < 0.35) {
-            // Risiko Rendah - Jinak (Hijau): 10% - 49%
-            randomPercent = parseFloat((Math.random() * (0.49 - 0.10) + 0.10).toFixed(4))
-            const options = ['Melanocytic Nevi (Jinak)', 'Dermatofibroma (Jinak)']
-            randomRespon = options[Math.floor(Math.random() * options.length)]
-        } else if (rand < 0.70) {
-            // Risiko Sedang - Borderline (Kuning): 50% - 74%
-            randomPercent = parseFloat((Math.random() * (0.74 - 0.50) + 0.50).toFixed(4))
-            const options = ['Benign Keratosis (Jinak - Perlu Observasi)', 'Dysplastic Nevi (Pre-Kanker)']
-            randomRespon = options[Math.floor(Math.random() * options.length)]
-        } else {
-            // Risiko Tinggi - Ganas (Merah): 75% - 99%
-            randomPercent = parseFloat((Math.random() * (0.99 - 0.75) + 0.75).toFixed(4))
-            const options = ['Melanoma (Terindikasi Ganas)', 'Basal Cell Carcinoma (Terindikasi Ganas)']
-            randomRespon = options[Math.floor(Math.random() * options.length)]
-        }
-
         const formData = new FormData()
         formData.append('file', selectedFile)
-        formData.append('user_id', realUserId.toString())
-        formData.append('persentase', randomPercent.toString())
-        formData.append('respon', randomRespon)
+        if (userId) {
+            formData.append('user_id', userId.toString())
+        }
 
         try {
             const response = await fetch(BACKEND_AI_URL, {
@@ -129,23 +96,40 @@ export default function ScanPage() {
             })
 
             if (!response.ok) {
-                throw new Error('FastAPI gagal menyimpan transaksi rekam medis')
+                throw new Error('Gagal terhubung dengan server AI ViT FastAPI')
             }
 
-            const data: ScanResponse = await response.json()
+            const data = await response.json()
             
+            if (data.status === 'error') {
+                throw new Error(data.message || 'Gagal memproses analisis AI')
+            }
+
             setResult({
-                class: data.scan_respon || randomRespon,
-                confidence: data.scan_persentase || randomPercent
+                label: data.label,
+                english_label: data.english_label,
+                confidence: data.confidence,
+                prob_benign: data.prob_benign,
+                prob_malignant: data.prob_malignant,
+                risk_level: data.risk_level,
+                color: data.color,
+                recommendation: data.recommendation,
+                heatmap_base64: data.heatmap_base64,
+                scan_id: data.scan_id
             })
 
             toast.push(
-                <Notification title="Sukses Simpan Ke Supabase" type="success">
-                    {data.message} (Scan ID: {data.scan_id})
+                <Notification title="Analisis ViT Selesai" type="success">
+                    Hasil skrining berhasil dianalisis model Vision Transformer! {data.scan_id ? `(Scan ID: ${data.scan_id})` : ''}
                 </Notification>
             )
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
+            toast.push(
+                <Notification title="Gagal Analisis AI" type="danger">
+                    {error?.message || 'Terjadi kesalahan saat memproses model AI.'}
+                </Notification>
+            )
         } finally {
             setIsLoading(false)
         }
@@ -153,13 +137,12 @@ export default function ScanPage() {
 
     return (
         <div className="p-4 md:p-8 max-w-5xl mx-auto min-h-screen">
-
             {/* 🔙 TOMBOL BACK ELEGAN */}
             <div className="mb-5">
                 <Button
                     size="sm"
                     icon={<TbArrowLeft />}
-                    onClick={() => router.push('/home')} // 👈 Klik langsung balik ke beranda landing page
+                    onClick={() => router.push('/home')}
                     className="hover:text-primary transition-colors duration-200"
                 >
                     Kembali ke Beranda
@@ -168,8 +151,8 @@ export default function ScanPage() {
 
             {/* Judul Halaman Scan */}
             <div className="mb-6">
-                <h3 className="font-bold mb-1 heading-text">Scan Foto Dermoskopi AI</h3>
-                <p className="text-slate-400 text-sm">Silakan unggah foto makro jaringan kulit Anda untuk melakukan pengecekan indikasi kanker Melanoma.</p>
+                <h3 className="font-bold mb-1 heading-text">Scan Foto Dermoskopi AI (ViT)</h3>
+                <p className="text-slate-400 text-sm">Unggah foto lesi kulit Anda untuk analisis deteksi dini kanker Melanoma berbasis model Deep Learning Vision Transformer.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -225,7 +208,7 @@ export default function ScanPage() {
                                     loading={isLoading}
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? 'Menganalisis Medis...' : 'Mulai Analisis AI'}
+                                    {isLoading ? 'Menganalisis dengan Model ViT...' : 'Mulai Analisis AI Real'}
                                 </Button>
                             </div>
                         )}
@@ -237,13 +220,13 @@ export default function ScanPage() {
                     <Card className="h-full flex flex-col">
                         <h5 className="font-bold mb-4 flex items-center gap-2 text-sm">
                             <TbActivity className="text-primary text-xl" />
-                            Hasil Analisis AI
+                            Hasil Diagnosis ViT AI
                         </h5>
 
                         {isLoading && (
                             <div className="flex flex-col items-center justify-center flex-1 py-12 text-center">
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
-                                <p className="text-xs font-medium text-slate-400">MelanoLens AI sedang mencocokkan piksel sel...</p>
+                                <p className="text-xs font-medium text-slate-400">Model Vision Transformer (ViT-B/16) sedang memproses ekstrak fitur piksel sel...</p>
                             </div>
                         )}
 
@@ -252,7 +235,7 @@ export default function ScanPage() {
                                 <div className="text-3xl text-slate-300 mb-2">
                                     <TbFileCheck />
                                 </div>
-                                <p className="text-[11px] text-slate-400 leading-relaxed">Silakan unggah foto bercak kulit Anda terlebih dahulu untuk memicu mesin deteksi klinis.</p>
+                                <p className="text-[11px] text-slate-400 leading-relaxed">Silakan unggah foto bercak kulit Anda untuk memicu analisis mesin Deep Learning ViT.</p>
                             </div>
                         )}
 
@@ -260,81 +243,75 @@ export default function ScanPage() {
                             <div className="flex-1 flex flex-col justify-between">
                                 <div className="space-y-4">
                                     {(() => {
-                                        const isMalignant = result.class.toLowerCase().includes('melanoma') || result.class.toLowerCase().includes('ganas')
-                                        const isBorderline = result.class.toLowerCase().includes('observasi') || result.class.toLowerCase().includes('kuning') || result.class.toLowerCase().includes('pre-kanker')
-                                        
-                                        // Tentukan kelas warna kontainer, teks, dan progress bar secara konsisten
+                                        const isMalignant = result.risk_level === 'Tinggi'
                                         const containerColorClass = isMalignant
                                             ? "p-3 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/20"
-                                            : isBorderline
-                                            ? "p-3 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/20"
                                             : "p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/20"
 
                                         const textColorClass = isMalignant
                                             ? "font-bold text-red-600 mt-0.5"
-                                            : isBorderline
-                                            ? "font-bold text-amber-600 mt-0.5"
                                             : "font-bold text-emerald-600 mt-0.5"
 
                                         const progressColorClass = isMalignant
                                             ? "bg-red-500"
-                                            : isBorderline
-                                            ? "bg-amber-500"
                                             : "bg-emerald-500"
 
                                         return (
                                             <>
                                                 <div className={containerColorClass}>
-                                                    <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Status Jaringan Sel</span>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Hasil Diagnosis AI</span>
+                                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isMalignant ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                                            Risiko {result.risk_level}
+                                                        </span>
+                                                    </div>
                                                     <h4 className={textColorClass}>
-                                                        {result.class}
+                                                        {result.label}
                                                     </h4>
                                                 </div>
 
                                                 <div>
                                                     <div className="flex justify-between items-center text-xs mb-1">
-                                                        <span className="font-medium text-slate-400">Confidence Rate</span>
-                                                        <span className="font-bold text-slate-700 dark:text-slate-200">{(result.confidence * 100).toFixed(1)}%</span>
+                                                        <span className="font-medium text-slate-400">Tingkat Keyakinan (Confidence)</span>
+                                                        <span className="font-bold text-slate-700 dark:text-slate-200">{result.confidence.toFixed(1)}%</span>
                                                     </div>
                                                     <Progress 
-                                                        percent={Math.round(result.confidence * 100)} 
+                                                        percent={Math.round(result.confidence)} 
                                                         width="100%" 
                                                         customColorClass={progressColorClass}
                                                     />
+                                                    <div className="mt-2 text-[11px] text-slate-400 flex justify-between">
+                                                        <span>Jinak: {result.prob_benign}%</span>
+                                                        <span>Ganas: {result.prob_malignant}%</span>
+                                                    </div>
                                                 </div>
 
-                                                {isMalignant ? (
-                                                    <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/20 flex gap-2 text-red-600 dark:text-red-400 text-xs leading-relaxed">
-                                                        <div className="text-base"><TbAlertTriangle /></div>
-                                                        <div>
-                                                            <p className="font-bold mb-0.5">Peringatan Medis (Risiko Tinggi)</p>
-                                                            <p>Data rekam diagnosis berhasil disimpan di database cloud Supabase. Jaringan terindikasi ganas/kanker. Sangat direkomendasikan untuk segera menemui Dokter Spesialis Dermatologi.</p>
+                                                {/* Visualisasi XAI Attention Heatmap */}
+                                                {result.heatmap_base64 && (
+                                                    <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-800">
+                                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Visualisasi Attention Map XAI</p>
+                                                        <div className="relative w-full h-36 rounded-lg overflow-hidden flex justify-center bg-black/5">
+                                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                            <img src={result.heatmap_base64} alt="XAI Heatmap" className="object-contain h-full rounded-lg" />
                                                         </div>
-                                                    </div>
-                                                ) : isBorderline ? (
-                                                    <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-900/20 flex gap-2 text-amber-600 dark:text-amber-400 text-xs leading-relaxed">
-                                                        <div className="text-base"><TbAlertTriangle /></div>
-                                                        <div>
-                                                            <p className="font-bold mb-0.5">Perhatian Medis (Risiko Sedang)</p>
-                                                            <p>Data rekam diagnosis berhasil disimpan di database cloud Supabase. Jaringan terindikasi pre-kanker atau memerlukan observasi medis lanjut secara berkala.</p>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/20 flex gap-2 text-emerald-600 dark:text-emerald-400 text-xs leading-relaxed">
-                                                        <div className="text-base"><TbFileCheck /></div>
-                                                        <div>
-                                                            <p className="font-bold mb-0.5">Rekomendasi Medis (Risiko Rendah)</p>
-                                                            <p>Data rekam diagnosis berhasil disimpan di database cloud Supabase. Jaringan terindikasi jinak. Tetap jaga kesehatan kulit Anda dan periksa berkala.</p>
-                                                        </div>
+                                                        <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT.</p>
                                                     </div>
                                                 )}
+
+                                                <div className={`p-3 rounded-xl ${isMalignant ? 'bg-red-50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/20 text-red-600 dark:text-red-400' : 'bg-emerald-50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/20 text-emerald-600 dark:text-emerald-400'} flex gap-2 text-xs leading-relaxed`}>
+                                                    <div className="text-base">{isMalignant ? <TbAlertTriangle /> : <TbFileCheck />}</div>
+                                                    <div>
+                                                        <p className="font-bold mb-0.5">Rekomendasi Medis</p>
+                                                        <p>{result.recommendation}</p>
+                                                    </div>
+                                                </div>
                                             </>
                                         )
                                     })()}
                                 </div>
 
                                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 leading-relaxed">
-                                    *Catatan: Sistem berbasis kecerdasan buatan ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
+                                    *Catatan: Sistem berbasis kecerdasan buatan Vision Transformer ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
                                 </div>
                             </div>
                         )}
