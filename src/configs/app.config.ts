@@ -13,7 +13,7 @@ const appConfig: AppConfig = {
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
     activeNavTranslation: false,
-    backendApiUrl: process.env.NEXT_PUBLIC_API_URL || 'https://wildanziddan-melanolens-be.hf.space',
+    backendApiUrl: process.env.NEXT_PUBLIC_API_URL || 'https://melanolens-be-production.up.railway.app',
 }
 
 export default appConfig
