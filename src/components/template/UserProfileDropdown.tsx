@@ -25,12 +25,13 @@ const _UserDropdown = () => {
         }
     }, [])
 
-    const handleSignOut = async () => {
-        // Hapus session cookie dan bersihkan localStorage persis cara landing page
-        document.cookie = "melanolens-session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;"
+    const handleSignOut = () => {
+        document.cookie = "melanolens-session=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax;"
+        document.cookie = "authjs.session-token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;"
+        document.cookie = "next-auth.session-token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT;"
         localStorage.clear()
-        await signOut()
-        window.location.href = '/sign-in'
+        sessionStorage.clear()
+        window.location.replace('/sign-in')
     }
 
     return (

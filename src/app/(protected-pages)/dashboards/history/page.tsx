@@ -107,7 +107,7 @@ export default function AdminHistoryPage() {
                     <Table compact className="min-w-full text-xs">
                         <THead className="bg-slate-50 dark:bg-slate-800/40">
                             <Tr>
-                                <Th className="font-bold text-slate-600 dark:text-slate-300">No.</Th> {/* ⬅️ Nama Header Kolom Lebih Simpel */}
+                                <Th className="font-bold text-slate-600 dark:text-slate-300">No.</Th>
                                 <Th className="font-bold text-slate-600 dark:text-slate-300">Nama Pasien</Th>
                                 <Th className="font-bold text-slate-600 dark:text-slate-300">Sampel Foto</Th>
                                 <Th className="font-bold text-slate-600 dark:text-slate-300">Tanggal Periksa</Th>
@@ -117,17 +117,12 @@ export default function AdminHistoryPage() {
                             </Tr>
                         </THead>
                         <TBody>
-                            {/* 🔑 KUNCI SAKTI: Tambahkan parameter 'index' di sebelah item loops */}
                             {filteredHistory.map((item, index) => {
                                 const isMalignant = item.scan_respon.toLowerCase().includes('melanoma') || item.scan_respon.toLowerCase().includes('ganas')
-                                
-                                // Karena data dari backend Python udah lu ubah jadi ASCENDING murni,
-                                // Maka urutan baris ke-1 otomatis dimulai dari index 0 + 1 = Nomor 1!
                                 const nomorUrutAsc = index + 1
 
                                 return (
                                     <Tr key={item.scan_id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800/60">
-                                        {/* 🚀 MERENDER NOMOR URUT URUTAN 1 SAMPAI SELESAI SECARA MENYELARASKAN DATA ASC FASTAPI */}
                                         <Td className="font-bold text-slate-700 dark:text-slate-200">{nomorUrutAsc}</Td>
                                         <Td className="font-semibold text-slate-600 dark:text-slate-300 capitalize">{item.user_nama}</Td>
                                         <Td>
