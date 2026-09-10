@@ -1,94 +1,35 @@
 'use client'
 
-import { useState } from 'react'
-import Alert from '@/components/ui/Alert'
-import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './ForgotPasswordForm'
-import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
-import { useRouter } from 'next/navigation'
 import Logo from '@/components/template/Logo'
-import type { OnForgotPasswordSubmit } from './ForgotPasswordForm'
 
-type ForgotPasswordProps = {
-    signInUrl?: string
-    onForgotPasswordSubmit?: OnForgotPasswordSubmit
-}
-
-export const ForgotPassword = ({
-    signInUrl = '/sign-in',
-    onForgotPasswordSubmit,
-}: ForgotPasswordProps) => {
-    const [emailSent, setEmailSent] = useState(false)
-    const [message, setMessage] = useTimeOutMessage()
-
-    const router = useRouter()
-
-    const handleContinue = () => {
-        router.push(signInUrl)
-    }
-
+export const ForgotPassword = () => {
     return (
         <div>
-            <div className="mb-4">
+            <div className="mb-6">
                 <Logo
                     type="streamline"
                     className="mb-4"
                     logoWidth={60}
                     logoHeight={60}
                 />
-
-                {emailSent ? (
-                    <>
-                        <h2 className="mb-2">Check your email</h2>
-
-                        <p className="font-semibold heading-text">
-                            We have sent a password recovery to your email
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <h2 className="mb-2">Forgot Password</h2>
-
-                        <p className="font-semibold heading-text">
-                            Please enter your email to receive a verification
-                            code
-                        </p>
-                    </>
-                )}
+                <h3 className="mb-1 font-bold">Lupa / Reset Password</h3>
+                <p className="text-slate-400 text-sm">
+                    Masukkan email terdaftar dan password baru Anda untuk melakukan pembaruan kata sandi secara langsung.
+                </p>
             </div>
 
-            {message && (
-                <Alert showIcon className="mb-4" type="danger">
-                    <span className="break-all">{message}</span>
-                </Alert>
-            )}
+            <ForgotPasswordForm />
 
-            <ForgotPasswordForm
-                emailSent={emailSent}
-                setMessage={setMessage}
-                setEmailSent={setEmailSent}
-                onForgotPasswordSubmit={onForgotPasswordSubmit}
-            >
-                <Button
-                    block
-                    variant="solid"
-                    type="button"
-                    onClick={handleContinue}
-                >
-                    Continue
-                </Button>
-            </ForgotPasswordForm>
-
-            <div className="mt-4 text-center">
-                <span>Back to </span>
-
+            <div className="mt-4 text-center text-sm">
+                <span className="text-slate-400">Sudah ingat password? </span>
                 <ActionLink
-                    href={signInUrl}
+                    href="/sign-in"
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    Masuk Sekarang
                 </ActionLink>
             </div>
         </div>

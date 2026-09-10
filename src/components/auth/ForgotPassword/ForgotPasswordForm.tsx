@@ -7,45 +7,21 @@ import { FormItem, Form } from '@/components/ui/Form'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { CommonProps } from '@/@types/common'
-
-type ForgotPasswordFormSchema = {
-    email: string
-}
-
-export type OnForgotPasswordSubmitPayload = {
-    values: ForgotPasswordFormSchema
-    setSubmitting: (isSubmitting: boolean) => void
-    setMessage: (message: string) => void
-    setEmailSent: (complete: boolean) => void
-}
-
-export type OnForgotPasswordSubmit = (
-    payload: OnForgotPasswordSubmitPayload,
-) => void
-
-interface ForgotPasswordFormProps extends CommonProps {
-    onForgotPasswordSubmit?: OnForgotPasswordSubmit
-    emailSent: boolean
-    setEmailSent: (complete: boolean) => void
-    setMessage: (message: string) => void
-}
+import Notification from '@/components/ui/Notification'
+import toast from '@/components/ui/toast'
+import { useRouter } from 'next/navigation'
+import appConfig from '@/configs/app.config'
 
 const validationSchema = z.object({
-    email: z.string().trim().min(1, 'Email is required'),
+    email: z.string().trim().email('Masukkan format email yang valid'),
+    newPassword: z.string().min(6, 'Password minimal 6 karakter'),
 })
 
-const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
-    const [isSubmitting, setSubmitting] = useState(false)
+type ForgotPasswordFormSchema = z.infer<typeof validationSchema>
 
-    const {
-        className,
-        onForgotPasswordSubmit,
-        setMessage,
-        setEmailSent,
-        emailSent,
-        children,
-    } = props
+const ForgotPasswordForm = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const router = useRouter()
 
     const {
         handleSubmit,
@@ -55,53 +31,82 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         resolver: zodResolver(validationSchema),
         defaultValues: {
             email: '',
+            newPassword: '',
         },
     })
 
     const onForgotPassword = async (values: ForgotPasswordFormSchema) => {
-        if (onForgotPasswordSubmit) {
-            onForgotPasswordSubmit({
-                values,
-                setSubmitting,
-                setMessage,
-                setEmailSent,
+        setIsSubmitting(true)
+        try {
+            const response = await fetch(`${appConfig.backendApiUrl}/api/auth/reset-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: values.email,
+                    new_password: values.newPassword,
+                }),
             })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.detail || 'Gagal memperbarui password')
+            }
+
+            toast.push(
+                <Notification title="Password Berhasil Diperbarui" type="success">
+                    {data.message || 'Silakan masuk menggunakan password baru Anda.'}
+                </Notification>
+            )
+
+            setTimeout(() => {
+                router.push('/sign-in')
+            }, 1500)
+        } catch (err: any) {
+            toast.push(
+                <Notification title="Gagal Reset Password" type="danger">
+                    {err.message || 'Terjadi kesalahan sistem.'}
+                </Notification>
+            )
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
-    if (emailSent) {
-        return <div>{children}</div>
-    }
-
     return (
-        <div className={className}>
+        <div>
             <Form onSubmit={handleSubmit(onForgotPassword)}>
-                <div className="mb-1 flex items-center gap-1">
-                    <span className="font-semibold">Email</span>
+                <div className="mb-4">
+                    <FormItem label="Email Terdaftar" invalid={Boolean(errors.email)} errorMessage={errors.email?.message}>
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="email"
+                                    placeholder="Masukkan email terdaftar Anda"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
 
-                    <span className="text-red-500">*</span>
-
-                    {errors.email && (
-                        <span className="ml-1 text-xs text-red-500">
-                            {errors.email.message}
-                        </span>
-                    )}
+                    <FormItem label="Password Baru" invalid={Boolean(errors.newPassword)} errorMessage={errors.newPassword?.message}>
+                        <Controller
+                            name="newPassword"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="password"
+                                    placeholder="Masukkan password baru"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
                 </div>
-
-                <FormItem invalid={Boolean(errors.email)} errorMessage="">
-                    <Controller
-                        name="email"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="email"
-                                placeholder="Email"
-                                autoComplete="off"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
 
                 <Button
                     block
@@ -109,7 +114,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                    {isSubmitting ? 'Memproses Reset...' : 'Simpan Password Baru'}
                 </Button>
             </Form>
         </div>
