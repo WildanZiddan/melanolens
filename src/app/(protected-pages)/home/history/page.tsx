@@ -74,8 +74,10 @@ export default function HistoryPage() {
 
                 if (!response.ok) throw new Error('Gagal memuat rekam medis dari FastAPI')
 
-                const data = await response.json()
-                setHistoryData(data)
+                const data: ScanHistoryItem[] = await response.json()
+                // Urutkan ascending: dari pemeriksaan yang paling lama dahulu ke yang terbaru
+                const sortedData = [...data].sort((a, b) => new Date(a.scan_tanggal).getTime() - new Date(b.scan_tanggal).getTime())
+                setHistoryData(sortedData)
             } catch (error) {
                 console.error("Error fetching history:", error)
             } finally {
