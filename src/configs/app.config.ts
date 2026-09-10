@@ -1,4 +1,4 @@
-export type AppConfig = {
+﻿export type AppConfig = {
     apiPrefix: string
     authenticatedEntryPath: string
     unAuthenticatedEntryPath: string
@@ -13,7 +13,7 @@ const appConfig: AppConfig = {
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
     activeNavTranslation: false,
-    backendApiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000',
+    backendApiUrl: process.env.NEXT_PUBLIC_API_URL || 'https://wildanziddan-melanolens-be.hf.space',
 }
 
 export default appConfig
