@@ -13,6 +13,19 @@ import appConfig from '@/configs/app.config'
 // 🌐 URL Endpoint Real AI Backend FastAPI (ViT Model)
 const BACKEND_AI_URL = `${appConfig.backendApiUrl}/api/skrining/predict`
 
+interface ABCDResult {
+    a_score: number
+    b_score: number
+    c_score: number
+    d_score: number
+    diameter_mm: number
+    detected_colors: string[]
+    tds: number
+    clinical_category: string
+    clinical_risk_level: string
+    concordance: string
+}
+
 interface AIResult {
     label: string
     english_label: string
@@ -24,6 +37,7 @@ interface AIResult {
     recommendation: string
     heatmap_base64?: string
     scan_id?: number
+    abcd?: ABCDResult
 }
 
 export default function AdminScanPage() {
@@ -115,7 +129,8 @@ export default function AdminScanPage() {
                 color: data.color,
                 recommendation: data.recommendation,
                 heatmap_base64: data.heatmap_base64,
-                scan_id: data.scan_id
+                scan_id: data.scan_id,
+                abcd: data.abcd,
             })
 
             toast.push(
@@ -295,6 +310,51 @@ export default function AdminScanPage() {
                                                             <img src={result.heatmap_base64} alt="XAI Heatmap" className="object-contain h-full rounded-lg" />
                                                         </div>
                                                         <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT.</p>
+                                                    </div>
+                                                )}
+
+                                                {/* Parameter Medis Klinis (ABCD & TDS) */}
+                                                {result.abcd && (
+                                                    <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700">
+                                                        <div className="flex justify-between items-center mb-2">
+                                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                                                                Parameter Klinis (ABCD & TDS)
+                                                            </span>
+                                                            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">
+                                                                TDS: {result.abcd.tds}
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="grid grid-cols-2 gap-2 text-[11px] mb-2">
+                                                            <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
+                                                                <span className="text-slate-400 block text-[9px]">A - Asimetri (0-2)</span>
+                                                                <span className="font-bold text-slate-800 dark:text-slate-100">{result.abcd.a_score} / 2</span>
+                                                            </div>
+                                                            <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
+                                                                <span className="text-slate-400 block text-[9px]">B - Batas / Border (0-8)</span>
+                                                                <span className="font-bold text-slate-800 dark:text-slate-100">{result.abcd.b_score} / 8</span>
+                                                            </div>
+                                                            <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
+                                                                <span className="text-slate-400 block text-[9px]">C - Ragam Warna (1-6)</span>
+                                                                <span className="font-bold text-slate-800 dark:text-slate-100">{result.abcd.c_score} warna</span>
+                                                            </div>
+                                                            <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
+                                                                <span className="text-slate-400 block text-[9px]">D - Diameter Est.</span>
+                                                                <span className="font-bold text-slate-800 dark:text-slate-100">{result.abcd.diameter_mm} mm</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="text-[10px] text-slate-500 dark:text-slate-400 space-y-1">
+                                                            {result.abcd.detected_colors && result.abcd.detected_colors.length > 0 && (
+                                                                <p>
+                                                                    <strong>Warna Lesi:</strong> {result.abcd.detected_colors.join(', ')}
+                                                                </p>
+                                                            )}
+                                                            <p>
+                                                                <strong>Kesesuaian AI-Klinis:</strong>{' '}
+                                                                <span className="text-primary font-medium">{result.abcd.concordance}</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 )}
 
