@@ -10,7 +10,7 @@ import Progress from '@/components/ui/Progress'
 import { TbCloudUpload, TbAlertTriangle, TbActivity, TbFileCheck, TbArrowLeft } from 'react-icons/tb'
 import appConfig from '@/configs/app.config'
 
-// 🌐 URL Endpoint Real AI Backend FastAPI (ViT Model)
+// 🌐 URL Endpoint Real AI Backend FastAPI (Gated MobileNetV2 Model)
 const BACKEND_AI_URL = `${appConfig.backendApiUrl}/api/skrining/predict`
 
 interface ABCDResult {
@@ -110,7 +110,7 @@ export default function AdminScanPage() {
             })
 
             if (!response.ok) {
-                throw new Error('Gagal terhubung dengan server AI ViT FastAPI')
+                throw new Error('Gagal terhubung dengan server AI MobileNetV2 FastAPI')
             }
 
             const data = await response.json()
@@ -134,8 +134,8 @@ export default function AdminScanPage() {
             })
 
             toast.push(
-                <Notification title="Analisis ViT Selesai" type="success">
-                    Hasil skrining berhasil dianalisis model Vision Transformer! {data.scan_id ? `(Scan ID: ${data.scan_id})` : ''}
+                <Notification title="Analisis MobileNetV2 Selesai" type="success">
+                    Hasil skrining berhasil dianalisis model Gated MobileNetV2! {data.scan_id ? `(Scan ID: ${data.scan_id})` : ''}
                 </Notification>
             )
         } catch (error: any) {
@@ -166,8 +166,8 @@ export default function AdminScanPage() {
 
             {/* Judul Halaman Scan */}
             <div className="mb-6">
-                <h3 className="font-bold mb-1 heading-text">Scan Foto Dermoskopi AI (ViT)</h3>
-                <p className="text-slate-400 text-sm">Unggah foto lesi kulit Anda untuk analisis deteksi dini kanker Melanoma berbasis model Deep Learning Vision Transformer.</p>
+                <h3 className="font-bold mb-1 heading-text">Scan Foto Dermoskopi AI (MobileNetV2)</h3>
+                <p className="text-slate-400 text-sm">Unggah foto lesi kulit Anda untuk analisis deteksi dini kanker Melanoma berbasis model Deep Learning MobileNetV2 dengan pengawasan lokalisasi lesi (gating).</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -223,7 +223,7 @@ export default function AdminScanPage() {
                                     loading={isLoading}
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? 'Menganalisis dengan Model ViT...' : 'Mulai Analisis AI Real'}
+                                    {isLoading ? 'Menganalisis dengan Model MobileNetV2...' : 'Mulai Analisis AI Real'}
                                 </Button>
                             </div>
                         )}
@@ -235,13 +235,13 @@ export default function AdminScanPage() {
                     <Card className="h-full flex flex-col">
                         <h5 className="font-bold mb-4 flex items-center gap-2 text-sm">
                             <TbActivity className="text-primary text-xl" />
-                            Hasil Diagnosis ViT AI
+                            Hasil Diagnosis MobileNetV2 AI
                         </h5>
 
                         {isLoading && (
                             <div className="flex flex-col items-center justify-center flex-1 py-12 text-center">
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
-                                <p className="text-xs font-medium text-slate-400">Model Vision Transformer (ViT-B/16) sedang memproses ekstrak fitur piksel sel...</p>
+                                <p className="text-xs font-medium text-slate-400">Model Gated MobileNetV2 sedang memproses ekstrak fitur piksel sel...</p>
                             </div>
                         )}
 
@@ -250,7 +250,7 @@ export default function AdminScanPage() {
                                 <div className="text-3xl text-slate-300 mb-2">
                                     <TbFileCheck />
                                 </div>
-                                <p className="text-[11px] text-slate-400 leading-relaxed">Silakan unggah foto bercak kulit Anda untuk memicu analisis mesin Deep Learning ViT.</p>
+                                <p className="text-[11px] text-slate-400 leading-relaxed">Silakan unggah foto bercak kulit Anda untuk memicu analisis mesin Deep Learning MobileNetV2.</p>
                             </div>
                         )}
 
@@ -309,7 +309,7 @@ export default function AdminScanPage() {
                                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                                             <img src={result.heatmap_base64} alt="XAI Heatmap" className="object-contain h-full rounded-lg" />
                                                         </div>
-                                                        <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT.</p>
+                                                        <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model MobileNetV2.</p>
                                                     </div>
                                                 )}
 
@@ -371,7 +371,7 @@ export default function AdminScanPage() {
                                 </div>
 
                                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 leading-relaxed">
-                                    *Catatan: Sistem berbasis kecerdasan buatan Vision Transformer ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
+                                    *Catatan: Sistem berbasis kecerdasan buatan Gated MobileNetV2 ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
                                 </div>
                             </div>
                         )}
