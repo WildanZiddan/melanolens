@@ -95,7 +95,7 @@ export default function HistoryPage() {
     }
 
     return (
-        <div className="p-4 md:p-8 max-w-5xl mx-auto min-h-screen">
+        <div className="p-4 md:p-8 pt-24 md:pt-28 max-w-5xl mx-auto min-h-screen">
             <div className="mb-5">
                 <Button size="sm" icon={<TbArrowLeft />} onClick={() => router.push('/home')}>
                     Kembali
@@ -290,7 +290,7 @@ export default function HistoryPage() {
                                 <div className="flex flex-col justify-between space-y-4">
                                     <h5 className="font-bold flex items-center gap-2 text-sm text-slate-800 dark:text-slate-100">
                                         <TbActivity className="text-primary text-xl" />
-                                        Hasil Diagnosis ViT AI
+                                        Hasil Diagnosis ViT-B AI
                                     </h5>
 
                                     <div className="space-y-4">
@@ -345,9 +345,9 @@ export default function HistoryPage() {
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">
-                                                Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT.
-                                            </p>
+                                             <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">
+                                                 Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT-B.
+                                             </p>
                                         </div>
 
                                         {/* Parameter Klinis (ABCD & TDS) */}
@@ -401,9 +401,9 @@ export default function HistoryPage() {
                                         </div>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 leading-relaxed">
-                                        *Catatan: Sistem berbasis kecerdasan buatan Vision Transformer ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
-                                    </div>
+                                     <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 leading-relaxed">
+                                         *Catatan: Sistem berbasis kecerdasan buatan ViT-B ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
+                                     </div>
                                 </div>
                             </div>
                         </div>

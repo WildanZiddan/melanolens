@@ -38,7 +38,7 @@ const stackList = [
         id: '5',
         title: 'Unduh Laporan Medis',
         description:
-            'Dapatkan hasil kalkulasi skor probabilitas akhir dan simpan riwayat skrining ke dashboard untuk pemantauan perkembangan lesi secara berkala.',
+            'Dapatkan hasil kalkulasi skor probabilitas akhir dan simpan riwayat skrining ke riwayat akun untuk pemantauan perkembangan lesi secara berkala.',
     }
 ]
 

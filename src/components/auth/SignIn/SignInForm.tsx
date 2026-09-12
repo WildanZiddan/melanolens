@@ -92,6 +92,7 @@ const SignInForm = (props: SignInFormProps) => {
 
                 // 🧠 4. BACA ROLE & NAME BERDASARKAN STRUKTUR JSON FASTAPI LU!
                 const userRole = data.user.authority[0] // 👈 Ngambil isi array ['user'] atau ['admin']
+                document.cookie = `melanolens-role=${userRole}; path=/; max-age=86400; SameSite=Lax;`
                 const name = data.user.name             // 👈 Ngambil data.user.name sesuai isi return python lu
                 const email = data.user.email           // 👈 Ngambil data.user.email sesuai isi return python lu
                 const tanggalLahir = data.user.tanggal_lahir || '' // 👈 Ngambil data.user.tanggal_lahir sesuai isi return python lu, default '' kalau kosong

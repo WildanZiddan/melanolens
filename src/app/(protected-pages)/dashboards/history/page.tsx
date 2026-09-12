@@ -18,7 +18,7 @@ interface AdminHistoryItem {
     scan_id: number
     user_id: number
     user_nama: string
-    scan_gambar: string 
+    scan_gambar: string
     scan_responGambar?: string
     scan_tanggal: string
     scan_persentase: number
@@ -31,7 +31,7 @@ export default function AdminHistoryPage() {
     const [historyData, setHistoryData] = useState<AdminHistoryItem[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
-    
+
     const [selectedItem, setSelectedItem] = useState<AdminHistoryItem | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -77,7 +77,7 @@ export default function AdminHistoryPage() {
                     <h3 className="font-bold mb-1 heading-text">Riwayat scanning milik pengguna MelanoLens</h3>
                     <p className="text-slate-400 text-sm">Halaman seluruh berkas skrining medis kanker kulit pasien MelanoLens.</p>
                 </div>
-                
+
                 <div className="relative w-full md:w-72">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-lg">
                         <TbSearch />
@@ -121,12 +121,12 @@ export default function AdminHistoryPage() {
                         <TBody>
                             {filteredHistory.map((item, index) => {
                                 const respLower = (item.scan_respon || '').toLowerCase()
-                                const isMalignant = 
-                                    (respLower.includes('malignant') || 
-                                     respLower.includes('melanoma') || 
-                                     respLower.includes('ganas') || 
-                                     respLower.includes('kanker') || 
-                                     respLower.includes('cancer')) &&
+                                const isMalignant =
+                                    (respLower.includes('malignant') ||
+                                        respLower.includes('melanoma') ||
+                                        respLower.includes('ganas') ||
+                                        respLower.includes('kanker') ||
+                                        respLower.includes('cancer')) &&
                                     !respLower.includes('jinak') &&
                                     !respLower.includes('benign')
 
@@ -161,10 +161,10 @@ export default function AdminHistoryPage() {
                                         <Td className="w-44">
                                             <div className="flex items-center gap-2">
                                                 <div className="flex-1">
-                                                    <Progress 
-                                                        percent={Math.round(item.scan_persentase <= 1 ? item.scan_persentase * 100 : item.scan_persentase)} 
-                                                        width="100%" 
-                                                        size="sm" 
+                                                    <Progress
+                                                        percent={Math.round(item.scan_persentase <= 1 ? item.scan_persentase * 100 : item.scan_persentase)}
+                                                        width="100%"
+                                                        size="sm"
                                                         customColorClass={isMalignant ? 'bg-red-500' : 'bg-emerald-500'}
                                                     />
                                                 </div>
@@ -184,20 +184,20 @@ export default function AdminHistoryPage() {
             )}
 
             {/* 🛠️ DIALOG MODAL POPUP AUDIT MEDIS KHUSUS ADMIN DENGAN TAMPILAN MIRIP MENU SCAN */}
-            <Dialog 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-                closable={true} 
+            <Dialog
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                closable={true}
                 width={920}
             >
                 {selectedItem && (() => {
                     const respLower = (selectedItem.scan_respon || '').toLowerCase()
-                    const isMalignant = 
-                        (respLower.includes('malignant') || 
-                         respLower.includes('melanoma') || 
-                         respLower.includes('ganas') || 
-                         respLower.includes('kanker') || 
-                         respLower.includes('cancer')) &&
+                    const isMalignant =
+                        (respLower.includes('malignant') ||
+                            respLower.includes('melanoma') ||
+                            respLower.includes('ganas') ||
+                            respLower.includes('kanker') ||
+                            respLower.includes('cancer')) &&
                         !respLower.includes('jinak') &&
                         !respLower.includes('benign')
 
@@ -219,8 +219,8 @@ export default function AdminHistoryPage() {
                     const cScore = isMalignant ? 3 : 1
                     const diameter = isMalignant ? '7.50' : '4.20'
                     const detectedColors = isMalignant ? ['Hitam (Black)', 'Cokelat Gelap', 'Merah'] : ['Cokelat Terang (Light Brown)']
-                    const concordance = isMalignant 
-                        ? '100% CONCORDANT (Keduanya Menunjukkan Melanoma Ganas)' 
+                    const concordance = isMalignant
+                        ? '100% CONCORDANT (Keduanya Menunjukkan Melanoma Ganas)'
                         : '100% CONCORDANT (Keduanya Menunjukkan Benign)'
 
                     const recommendation = isMalignant
@@ -247,10 +247,10 @@ export default function AdminHistoryPage() {
                                     <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-800/10">
                                         <div className="relative w-full max-h-[320px] flex justify-center overflow-hidden rounded-xl">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img 
-                                                src={selectedItem.scan_gambar} 
-                                                alt="Foto Lesi Pasien" 
-                                                className="object-contain max-h-[320px] w-auto rounded-xl shadow-sm" 
+                                            <img
+                                                src={selectedItem.scan_gambar}
+                                                alt="Foto Lesi Pasien"
+                                                className="object-contain max-h-[320px] w-auto rounded-xl shadow-sm"
                                             />
                                         </div>
                                     </div>
@@ -293,7 +293,7 @@ export default function AdminHistoryPage() {
                                 <div className="flex flex-col justify-between space-y-4">
                                     <h5 className="font-bold flex items-center gap-2 text-sm text-slate-800 dark:text-slate-100">
                                         <TbActivity className="text-primary text-xl" />
-                                        Hasil Diagnosis MobileNetV2 AI
+                                        Hasil Diagnosis ViT-B AI
                                     </h5>
 
                                     <div className="space-y-4">
@@ -318,9 +318,9 @@ export default function AdminHistoryPage() {
                                                 <span className="font-medium text-slate-400">Tingkat Keyakinan (Confidence)</span>
                                                 <span className="font-bold text-slate-700 dark:text-slate-200">{confFormatted}%</span>
                                             </div>
-                                            <Progress 
-                                                percent={Math.round(confPercent)} 
-                                                width="100%" 
+                                            <Progress
+                                                percent={Math.round(confPercent)}
+                                                width="100%"
                                                 customColorClass={progressColorClass}
                                             />
                                             <div className="mt-2 text-[11px] text-slate-400 flex justify-between">
@@ -337,10 +337,10 @@ export default function AdminHistoryPage() {
                                             <div className="relative w-full h-36 rounded-lg overflow-hidden flex justify-center items-center bg-black/5 dark:bg-black/30">
                                                 {selectedItem.scan_responGambar ? (
                                                     /* eslint-disable-next-line @next/next/no-img-element */
-                                                    <img 
-                                                        src={selectedItem.scan_responGambar} 
-                                                        alt="XAI Attention Heatmap" 
-                                                        className="object-contain h-full rounded-lg" 
+                                                    <img
+                                                        src={selectedItem.scan_responGambar}
+                                                        alt="XAI Attention Heatmap"
+                                                        className="object-contain h-full rounded-lg"
                                                     />
                                                 ) : (
                                                     <span className="text-slate-400 text-xs italic">
@@ -349,7 +349,7 @@ export default function AdminHistoryPage() {
                                                 )}
                                             </div>
                                             <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">
-                                                Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model MobileNetV2.
+                                                Heatmap menyoroti fokus area jaringan lesi kulit yang dianalisis oleh model ViT-B.
                                             </p>
                                         </div>
 
@@ -405,7 +405,7 @@ export default function AdminHistoryPage() {
                                     </div>
 
                                     <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 leading-relaxed">
-                                        *Catatan: Sistem berbasis kecerdasan buatan Gated MobileNetV2 ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
+                                        *Catatan: Sistem berbasis kecerdasan buatan ViT-B ini ditujukan hanya untuk kepentingan penapisan awal mandiri.
                                     </div>
                                 </div>
                             </div>

@@ -118,8 +118,10 @@ export default function middleware(req: NextRequest) {
 
     if (isAuthRoute) {
         if (isSignedIn) {
-            /** Kalau sudah login tapi maksa buka halaman /sign-in, lempar ke dashboard/home utama! */
-            return NextResponse.redirect(new URL(appConfig.authenticatedEntryPath, nextUrl))
+            /** Kalau sudah login tapi maksa buka halaman /sign-in, arahkan sesuai role: admin ke dashboard, user ke /home */
+            const roleCookie = allCookies.find(cookie => cookie.name === 'melanolens-role')
+            const targetPath = roleCookie?.value === 'admin' ? '/dashboards/ecommerce' : '/home'
+            return NextResponse.redirect(new URL(targetPath, nextUrl))
         }
         return NextResponse.next()
     }
@@ -137,6 +139,14 @@ export default function middleware(req: NextRequest) {
                 nextUrl,
             )
         )
+    }
+
+    /** 🛡️ HAK AKSES ADMIN: Jika user mencoba membuka /dashboards/* tapi role bukan 'admin', tendang ke /home */
+    if (isSignedIn && nextUrl.pathname.startsWith('/dashboards')) {
+        const roleCookie = allCookies.find(cookie => cookie.name === 'melanolens-role')
+        if (roleCookie && roleCookie.value !== 'admin') {
+            return NextResponse.redirect(new URL('/home', nextUrl))
+        }
     }
 
     return NextResponse.next()

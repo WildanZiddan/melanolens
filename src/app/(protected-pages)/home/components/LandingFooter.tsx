@@ -13,7 +13,7 @@ const LandingFooter = ({ mode }: { mode: Mode }) => {
     const router = useRouter()
 
     const handlePreview = () => {
-        router.push('/sign-in')
+        router.push('/home/scan')
     }
 
     return (

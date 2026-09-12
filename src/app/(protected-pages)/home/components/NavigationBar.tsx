@@ -9,10 +9,12 @@ import { TbMenu2, TbUser, TbLogout, TbLayoutDashboard, TbId } from 'react-icons/
 import Link from 'next/link'
 import type { Mode } from '@/@types/theme'
 import ProfileCard from '@/components/shared/ProfileCard'
+import useTheme from '@/utils/hooks/useTheme'
+import { MODE_DARK, MODE_LIGHT } from '@/constants/theme.constant'
 
 type NavigationProps = {
-    toggleMode: () => void
-    mode: Mode
+    toggleMode?: () => void
+    mode?: Mode
 }
 
 const navMenu = [
@@ -32,13 +34,24 @@ const navMenu = [
         to: 'faq',
     },
     {
+        title: 'Mulai Scan',
+        value: 'scan-now',
+        href: '/home/scan',
+    },
+    {
         title: 'Riwayat Scan',
         value: 'scan',
-        href: 'home/history',
+        href: '/home/history',
     },
 ]
 
-const Navigation = ({ toggleMode, mode }: NavigationProps) => {
+const Navigation = ({ toggleMode: propToggleMode, mode: propMode }: NavigationProps) => {
+    const themeMode = useTheme((state) => state.mode)
+    const setThemeMode = useTheme((state) => state.setMode)
+
+    const mode = propMode || themeMode
+    const toggleMode = propToggleMode || (() => setThemeMode(themeMode === MODE_LIGHT ? MODE_DARK : MODE_LIGHT))
+
     const { isSticky } = useScrollTop()
 
     const [isOpen, setIsOpen] = useState(false)
@@ -108,7 +121,7 @@ const Navigation = ({ toggleMode, mode }: NavigationProps) => {
                         <NavList onTabClick={onDrawerClose} tabs={navMenu} />
                     </div>
                 </Drawer>
-                <Link href="/">
+                <Link href="/home">
                     {mode === 'light' && (
                         <Image
                             src="/img/logo/logo-light-full.png"

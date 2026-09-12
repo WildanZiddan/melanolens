@@ -1,7 +1,6 @@
 'use client'
 
 import HeroContent from './HeroContent'
-import NavigationBar from './NavigationBar'
 import Beranda from './Beranda'
 import Panduan from './Panduan'
 import Faq from './Faq'
@@ -21,7 +20,6 @@ const Landing = () => {
 
     return (
         <main className="px-4 lg:px-0 text-base bg-white dark:bg-slate-900">
-            <NavigationBar toggleMode={toggleMode} mode={mode} />
             <div className="relative">
                 <div
                     style={{

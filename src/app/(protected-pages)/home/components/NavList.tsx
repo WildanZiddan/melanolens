@@ -6,6 +6,7 @@ import useResponsive from '@/utils/hooks/useResponsive'
 import { motion } from 'framer-motion'
 import { Link } from 'react-scroll'
 import NextLink from 'next/link'
+import { usePathname } from 'next/navigation'
 
 type AnchorTab = {
     title: string
@@ -30,6 +31,9 @@ const NavList = ({
     tabClassName?: string
     onTabClick?: () => void
 }) => {
+    const pathname = usePathname()
+    const isHomePage = pathname === '/home' || pathname === '/'
+
     const [active, setActive] = useState<Tab>(propTabs[0])
     const [show, setShow] = useState(false)
 
@@ -49,53 +53,66 @@ const NavList = ({
 
     return (
         <>
-            {propTabs.map((tab, idx) => (
-                <button
-                    key={tab.title}
-                    className={classNames(
-                        'relative px-5 py-2 rounded-xl',
-                        tabClassName,
-                    )}
-                    onClick={() => {
-                        moveSelectedTabToTop(idx)
-                    }}
-                    onMouseEnter={() => moveSelectedTabToTop(idx)}
-                    onMouseLeave={() => setShow(false)}
-                >
-                    {active.value === tab.value && (
-                        <motion.div
-                            layoutId="clickedbutton"
-                            transition={{
-                                type: 'spring',
-                                bounce: 0.3,
-                                duration: 0.6,
-                            }}
-                            className={classNames(
-                                'absolute inset-0 rounded-xl',
-                                show && 'bg-gray-100 dark:bg-slate-700',
-                            )}
-                        />
-                    )}
-                    {}
-                    {(tab as AnchorTab).to ? (
-                        <Link
-                            smooth
-                            to={(tab as AnchorTab).to}
-                            className="relative block heading-text z-10"
-                            duration={500}
-                        >
-                            {tab.title}
-                        </Link>
-                    ) : (
-                        <NextLink
-                            href={(tab as LinkTab).href}
-                            className="relative block heading-text z-10"
-                        >
-                            {tab.title}
-                        </NextLink>
-                    )}
-                </button>
-            ))}
+            {propTabs.map((tab, idx) => {
+                const isLinkActive = (tab as LinkTab).href && pathname === (tab as LinkTab).href
+                const isTabActive = isLinkActive || active.value === tab.value
+
+                return (
+                    <button
+                        key={tab.title}
+                        className={classNames(
+                            'relative px-5 py-2 rounded-xl',
+                            tabClassName,
+                        )}
+                        onClick={() => {
+                            moveSelectedTabToTop(idx)
+                        }}
+                        onMouseEnter={() => moveSelectedTabToTop(idx)}
+                        onMouseLeave={() => setShow(false)}
+                    >
+                        {isTabActive && (
+                            <motion.div
+                                layoutId="clickedbutton"
+                                transition={{
+                                    type: 'spring',
+                                    bounce: 0.3,
+                                    duration: 0.6,
+                                }}
+                                className={classNames(
+                                    'absolute inset-0 rounded-xl',
+                                    show && 'bg-gray-100 dark:bg-slate-700',
+                                )}
+                            />
+                        )}
+                        {(tab as AnchorTab).to ? (
+                            isHomePage ? (
+                                <Link
+                                    smooth
+                                    to={(tab as AnchorTab).to}
+                                    className="relative block heading-text z-10"
+                                    duration={500}
+                                >
+                                    {tab.title}
+                                </Link>
+                            ) : (
+                                <NextLink
+                                    href={(tab as AnchorTab).to === 'features' ? '/home' : `/home#${(tab as AnchorTab).to}`}
+                                    className="relative block heading-text z-10"
+                                >
+                                    {tab.title}
+                                </NextLink>
+                            )
+                        ) : (
+                            <NextLink
+                                href={(tab as LinkTab).href}
+                                className="relative block heading-text z-10"
+                            >
+                                {tab.title}
+                            </NextLink>
+                        )}
+                    </button>
+                )
+            })}
         </>
     )
 }

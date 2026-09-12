@@ -191,7 +191,7 @@ const Faq = ({ mode }: DemoProps) => {
                                         <strong>Q: Bagaimana model AI memproses citra yang diunggah?</strong> Citra dermoskopi diproses melalui jaringan saraf tiruan (Deep Learning) yang telah dilatih mengekstrak karakteristik visual lesi secara presisi.
                                     </PointList>
                                     <PointList>
-                                        <strong>Q: Apakah data citra kulit pengguna tersimpan aman?</strong> Ya, semua citra rekam medis di dashboard pemantauan klinis disimpan terenkripsi demi menjaga privasi dan kerahasiaan data pasien.
+                                        <strong>Q: Apakah data citra kulit pengguna tersimpan aman?</strong> Ya, semua citra rekam medis di basis data klinis disimpan terenkripsi demi menjaga privasi dan kerahasiaan data pasien.
                                     </PointList>
                                 </div>
                             </div>

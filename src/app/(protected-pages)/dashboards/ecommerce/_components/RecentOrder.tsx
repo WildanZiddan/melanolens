@@ -122,7 +122,7 @@ const RecentOrder = ({ data = [] }: RecentOrderProps) => {
                 </div>
                 <Button
                     size="sm"
-                    variant="twoTone"
+                    variant="default"
                     onClick={() => router.push('/dashboards/history')}
                 >
                     Lihat Semua Berkas
