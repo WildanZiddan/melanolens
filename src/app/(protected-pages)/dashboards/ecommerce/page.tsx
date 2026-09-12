@@ -55,14 +55,14 @@ export default function AdminDashboardPage() {
                 value: realData?.summary?.weekly_malignant || 0, 
                 chartData: { 
                     date: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'], 
-                    series: [{ name: 'Ganas', data: realData?.charts?.weekly_malignant || [0,0,0,0,0,0,0] }] 
+                    series: [{ name: 'Malignant', data: realData?.charts?.weekly_malignant || [0,0,0,0,0,0,0] }] 
                 } 
             },
             kasusJinak: { 
                 value: realData?.summary?.weekly_benign || 0, 
                 chartData: { 
                     date: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'], 
-                    series: [{ name: 'Jinak', data: realData?.charts?.weekly_benign || [0,0,0,0,0,0,0] }] 
+                    series: [{ name: 'Benign', data: realData?.charts?.weekly_benign || [0,0,0,0,0,0,0] }] 
                 } 
             }
         },
@@ -78,14 +78,14 @@ export default function AdminDashboardPage() {
                 value: realData?.summary?.monthly_malignant || 0, 
                 chartData: { 
                     date: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'], 
-                    series: [{ name: 'Ganas', data: realData?.charts?.monthly_malignant || [0,0,0,0] }] 
+                    series: [{ name: 'Malignant', data: realData?.charts?.monthly_malignant || [0,0,0,0] }] 
                 } 
             },
             kasusJinak: { 
                 value: realData?.summary?.monthly_benign || 0,   
                 chartData: { 
                     date: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'], 
-                    series: [{ name: 'Jinak', data: realData?.charts?.monthly_benign || [0,0,0,0] }] 
+                    series: [{ name: 'Benign', data: realData?.charts?.monthly_benign || [0,0,0,0] }] 
                 } 
             }
         },
@@ -101,14 +101,14 @@ export default function AdminDashboardPage() {
                 value: realData?.summary?.yearly_malignant || 0, 
                 chartData: { 
                     date: ['Kuartal 1', 'Kuartal 2', 'Kuartal 3', 'Kuartal 4'], 
-                    series: [{ name: 'Ganas', data: realData?.charts?.yearly_malignant || [0,0,0,0] }] 
+                    series: [{ name: 'Malignant', data: realData?.charts?.yearly_malignant || [0,0,0,0] }] 
                 } 
             },
             kasusJinak: { 
                 value: realData?.summary?.yearly_benign || 0, 
                 chartData: { 
                     date: ['Kuartal 1', 'Kuartal 2', 'Kuartal 3', 'Kuartal 4'], 
-                    series: [{ name: 'Jinak', data: realData?.charts?.yearly_benign || [0,0,0,0] }] 
+                    series: [{ name: 'Benign', data: realData?.charts?.yearly_benign || [0,0,0,0] }] 
                 } 
             }
         }
@@ -116,7 +116,15 @@ export default function AdminDashboardPage() {
 
     const adaptedRecentOrders = (realData?.recent_scans || [])
         .map((scan: any) => {
-            const isMalignant = scan.scan_respon.toLowerCase().includes('melanoma') || scan.scan_respon.toLowerCase().includes('ganas')
+            const respLower = (scan.scan_respon || '').toLowerCase()
+            const isMalignant = 
+                (respLower.includes('malignant') || 
+                 respLower.includes('melanoma') || 
+                 respLower.includes('ganas') || 
+                 respLower.includes('kanker') || 
+                 respLower.includes('cancer')) &&
+                !respLower.includes('jinak') &&
+                !respLower.includes('benign')
             return {
                 id: scan.scan_id,
                 customer: scan.user_nama,
@@ -136,6 +144,20 @@ export default function AdminDashboardPage() {
         thisMonth: { growShrink: 0, value: realData?.summary?.monthly_scan || 0, percentage: { onlineStore: 70, physicalStore: 20, socialMedia: 10 } },
         thisYear: { growShrink: 0, value: realData?.summary?.yearly_scan || 0, percentage: { onlineStore: 70, physicalStore: 20, socialMedia: 10 } }
     }
+
+    const adaptedDiagnosisSummary = (realData?.diagnosis_summary || []).map((item: any) => {
+        const rawName = (item?.name || '').toLowerCase()
+        const cleanName = 
+            rawName.includes('melanoma') || rawName.includes('malignant') || rawName.includes('ganas')
+                ? 'Malignant'
+                : rawName.includes('nevus') || rawName.includes('benign') || rawName.includes('jinak')
+                    ? 'Benign'
+                    : item.name
+        return {
+            ...item,
+            name: cleanName
+        }
+    })
 
     return (
         <div className="p-4 md:p-6 max-w-full overflow-x-hidden min-h-screen">
@@ -158,7 +180,7 @@ export default function AdminDashboardPage() {
                         <SalesTarget data={{ thisMonth: realData?.summary?.avg_confidence || 0 } as any} />
                         
                         {/* 2. List Klasifikasi Temuan Kasus Kulit Terbanyak */}
-                        <TopProduct data={realData?.diagnosis_summary || []} />
+                        <TopProduct data={adaptedDiagnosisSummary} />
                         
                         {/* 3. Tiga Bar Segmen Umur Pasien */}
                         <RevenueByChannel data={realData?.age_demographic} />

@@ -94,7 +94,7 @@ export default function Overview({ data }: { data: any }) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
                     <h4>Grafik Tren Aktivitas Skrining</h4>
-                    <p className="text-xs text-slate-400">Monitoring lonjakan upload sampel foto kulit jaringan melanoma secara berkala.</p>
+                    <p className="text-xs text-slate-400">Monitoring lonjakan upload sampel foto kulit jaringan Malignant secara berkala.</p>
                 </div>
                 <Select
                     instanceId="overview-period"
@@ -120,25 +120,25 @@ export default function Overview({ data }: { data: any }) {
                     onClick={setSelectedCategory}
                 />
                 <StatisticCard
-                    title="Temuan Ganas"
+                    title="Malignant"
                     value={<NumericFormat displayType="text" value={data[selectedPeriod].kasusGanas.value} thousandSeparator={true} suffix=" Kasus" />}
                     growShrink={0}
                     iconClass="bg-red-50 text-red-600 dark:bg-red-950/40"
                     icon={<TbShieldLockFilled />}
                     label="kasusGanas"
                     active={selectedCategory === 'kasusGanas'}
-                    compareFrom={`Indikasi Melanoma ${labelPeriode}`}
+                    compareFrom={`Indikasi Malignant ${labelPeriode}`}
                     onClick={setSelectedCategory}
                 />
                 <StatisticCard
-                    title="Kondisi Jinak"
+                    title="Benign"
                     value={<NumericFormat displayType="text" value={data[selectedPeriod].kasusJinak.value} thousandSeparator={true} suffix=" Kasus" />}
                     growShrink={0}
                     iconClass="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40"
                     icon={<TbHeartRateMonitor />}
                     label="kasusJinak"
                     active={selectedCategory === 'kasusJinak'}
-                    compareFrom={`Jaringan aman ${labelPeriode}`}
+                    compareFrom={`Kondisi Benign ${labelPeriode}`}
                     onClick={setSelectedCategory}
                 />
             </div>

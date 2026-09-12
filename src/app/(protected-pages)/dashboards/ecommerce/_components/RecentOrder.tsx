@@ -26,12 +26,12 @@ const { Tr, Td, TBody, THead, Th } = Table
 // 🔑 RACIKAN WARNA MEDIS: 0 = Jinak (Emerald Hijau), 2 = Indikasi Ganas (Red Merah)
 const medicalStatusColor: Record<number, { label: string; dotClass: string; textClass: string }> = {
     0: {
-        label: 'Jinak',
+        label: 'Benign',
         dotClass: 'bg-emerald-500',
         textClass: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 px-2.5 py-1 rounded-full',
     },
     2: { 
-        label: 'Indikasi Ganas', 
+        label: 'Malignant', 
         dotClass: 'bg-red-500', 
         textClass: 'text-red-500 bg-red-50 dark:bg-red-950/20 px-2.5 py-1 rounded-full' 
     },
