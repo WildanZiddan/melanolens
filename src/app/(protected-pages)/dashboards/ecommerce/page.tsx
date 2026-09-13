@@ -19,7 +19,9 @@ export default function AdminDashboardPage() {
         const fetchDashboardStats = async () => {
             try {
                 setIsLoading(true)
-                const response = await fetch(DASHBOARD_STATS_URL)
+                const response = await fetch(DASHBOARD_STATS_URL, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token') || ''}` },
+                })
                 if (!response.ok) throw new Error('Gagal memuat statistik database')
                 const data = await response.json()
                 setRealData(data)

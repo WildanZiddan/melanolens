@@ -38,7 +38,9 @@ export default function AdminHistoryPage() {
     useEffect(() => {
         const fetchAllHistory = async () => {
             try {
-                const response = await fetch(ADMIN_HISTORY_URL)
+                const response = await fetch(ADMIN_HISTORY_URL, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token') || ''}` },
+                })
                 if (!response.ok) throw new Error('Gagal menarik data rekam medis')
                 const data = await response.json()
                 setHistoryData(data)
