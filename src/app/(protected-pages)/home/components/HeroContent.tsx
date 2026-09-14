@@ -70,7 +70,7 @@ const HeroContent = ({ mode }: { mode: Mode }) => {
                                 src="/img/landing/hero/hero.webp"
                                 width={1920}
                                 height={1040}
-                                alt="Ecme homepage"
+                                alt="MelanoLens Dashboard"
                             />
                         )}
                         {mode === MODE_DARK && (
@@ -79,7 +79,7 @@ const HeroContent = ({ mode }: { mode: Mode }) => {
                                 src="/img/landing/hero/hero-dark.webp"
                                 width={1920}
                                 height={1040}
-                                alt="Ecme homepage"
+                                alt="MelanoLens Dashboard"
                             />
                         )}
                     </div>

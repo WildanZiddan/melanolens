@@ -6,6 +6,7 @@ import FrameLessGap from '@/components/template/FrameLessGap'
 import MobileNav from '@/components/template/MobileNav'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import ThemeModeToggle from '@/components/template/ThemeModeToggle'
 import LayoutBase from '@/components//template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
@@ -95,6 +96,7 @@ const FrameLessSide = ({ children }: CommonProps) => {
                             }
                             headerEnd={
                                 <>
+                                    <ThemeModeToggle />
                                     <UserProfileDropdown hoverable={false} />
                                 </>
                             }

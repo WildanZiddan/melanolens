@@ -2,6 +2,7 @@
 
 import Header from '@/components/template/Header'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import ThemeModeToggle from '@/components/template/ThemeModeToggle'
 import HeaderLogo from '@/components/template/HeaderLogo'
 import MobileNav from '@/components/template/MobileNav'
 import HorizontalNav from '@/components/template/HorizontalNav'
@@ -110,6 +111,7 @@ const ContentOverlay = ({ children }: CommonProps) => {
                         headerMiddle={<HorizontalNav />}
                         headerEnd={
                             <>
+                                <ThemeModeToggle />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }

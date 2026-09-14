@@ -9,6 +9,7 @@ import Search from '@/components/template/Search'
 import Notification from '@/components/template/Notification'
 import SidePanel from '@/components/template/SidePanel'
 import LayoutBase from '@/components//template/LayoutBase'
+import ThemeModeToggle from '@/components/template/ThemeModeToggle'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
 
@@ -34,6 +35,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                             <>
                                 {/* <Notification /> */}
                                 {/* <SidePanel /> */}
+                                <ThemeModeToggle />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }

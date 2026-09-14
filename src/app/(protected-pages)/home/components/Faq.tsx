@@ -1,49 +1,12 @@
 import Container from './LandingContainer'
-import RegionMap from '@/components/shared/RegionMap'
 import { TbCircleCheck } from 'react-icons/tb'
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
-import { useState } from 'react'
 import type { Mode } from '@/@types/theme'
 
 type DemoProps = {
     mode: Mode
 }
-
-
-const mapMeta: Record<string, { img: string }> = {
-    us: { img: '/img/countries/US.png' },
-    cn: { img: '/img/countries/CN.png' },
-    es: { img: '/img/countries/ES.png' },
-    sa: { img: '/img/countries/SA.png' },
-}
-
-const data = [
-    {
-        id: 'us',
-        name: 'United States',
-        value: 38.61,
-        coordinates: [-95.7129, 37.0902],
-    },
-    {
-        id: 'es',
-        name: 'India',
-        value: 26.42,
-        coordinates: [-51.9253, -14.235],
-    },
-    {
-        id: 'cn',
-        name: 'Brazil',
-        value: 32.79,
-        coordinates: [78.9629, 20.5937],
-    },
-    {
-        id: 'sa',
-        name: 'United Kingdom',
-        value: 17.42,
-        coordinates: [0.1278, 51.5074],
-    },
-]
 
 const PointList = ({ children }: { children: ReactNode }) => {
     return (
@@ -55,7 +18,6 @@ const PointList = ({ children }: { children: ReactNode }) => {
 }
 
 const Faq = ({ mode }: DemoProps) => {
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
     return (
         <div id="faq" className="relative z-20 py-10 md:py-40">
             <Container>
@@ -117,83 +79,6 @@ const Faq = ({ mode }: DemoProps) => {
                                         />
                                     </div>
                                 </motion.div>
-                            </div>
-                        </div>
-                    </motion.div>
-                    <motion.div
-                        className="bg-gray-100 dark:bg-slate-800 rounded-3xl py-12 px-10 lg:py-24 lg:px-16 overflow-hidden mb-10"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{
-                            duration: 0.3,
-                            type: 'spring',
-                            bounce: 0.1,
-                        }}
-                        viewport={{ once: true }}
-                    >
-                        <div className="grid lg:grid-cols-2 gap-8 lg:gap-4">
-                            <div className="relative flex justify-center">
-                                <div className="lg:absolute h-full w-full left-0 md:left-[-50px] scale-[1.1]">
-                                    <RegionMap
-                                        data={data}
-                                        valueSuffix="%"
-                                        hoverable={false}
-                                        marker={(Marker) => (
-                                            <>
-                                                {data.map(
-                                                    ({
-                                                        name,
-                                                        coordinates,
-                                                        id,
-                                                    }) => (
-                                                        <Marker
-                                                            key={name}
-                                                            coordinates={
-                                                                coordinates as [
-                                                                    number,
-                                                                    number,
-                                                                ]
-                                                            }
-                                                            className="cursor-pointer group"
-                                                        >
-                                                            <motion.image
-                                                                className="shadow-lg"
-                                                                href={
-                                                                    mapMeta[id]
-                                                                        .img
-                                                                }
-                                                                height="80"
-                                                                width="80"
-                                                                whileHover={{
-                                                                    scale: 1.1,
-                                                                }}
-                                                            />
-                                                        </Marker>
-                                                    ),
-                                                )}
-                                            </>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <h3 className="text-4xl">
-                                    Teknologi AI & Transparansi Sistem
-                                </h3>
-                                <p className="mt-6 max-w-[550px] text-lg">
-                                    Penjelasan mengenai implementasi teknologi Deep Learning dan bagaimana kecerdasan buatan memberikan visualisasi yang dapat dipertanggungjawabkan.
-                                </p>
-                                <div className="mt-12 flex flex-col gap-4">
-                                    <PointList>
-                                        <strong>Q: Apa fungsi Attention Maps (Heatmap) pada hasil?</strong> Memberikan transparansi keputusan AI (Explainable AI) dengan menandai area piksel lesi kulit mana yang paling memengaruhi hasil prediksi sistem.
-                                    </PointList>
-                                    <PointList>
-                                        <strong>Q: Bagaimana model AI memproses citra yang diunggah?</strong> Citra dermoskopi diproses melalui jaringan saraf tiruan (Deep Learning) yang telah dilatih mengekstrak karakteristik visual lesi secara presisi.
-                                    </PointList>
-                                    <PointList>
-                                        <strong>Q: Apakah data citra kulit pengguna tersimpan aman?</strong> Ya, semua citra rekam medis di basis data klinis disimpan terenkripsi demi menjaga privasi dan kerahasiaan data pasien.
-                                    </PointList>
-                                </div>
                             </div>
                         </div>
                     </motion.div>
